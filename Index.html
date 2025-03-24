@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentACar Login</title>
+    <link rel="stylesheet" href="Style/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/validator@13.7.0/validator.min.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <div id="login-form">
+            <h2>Login</h2>
+            <form>
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div class="forgot-password">
+                <a href="#" id="show-forgot-password">Forgot Password?</a>
+            </div>
+            <div class="signup-link">
+                Don't have an account? <a href="#" id="show-register">Register</a>
+            </div>
+        </div>
+        <div id="register-form" style="display: none;">
+            <h2>Register</h2>
+            <form>
+                <input type="text" placeholder="Username" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <div class="signup-link">
+                Already have an account? <a href="#" id="show-login">Login</a>
+            </div>
+        </div>
+        <div id="forgot-password-form" style="display: none;">
+            <h2>Forgot Password</h2>
+            <form action="Pages/OtpVerification.html" method="get">
+                <input type="email" placeholder="Enter your email" id="Email-forgot-password" required>
+                <button type="submit" id="submit-forgot-password">Submit</button>
+            </form>
+            <div class="signup-link">
+                Remembered your password? <a href="#" id="show-login-form-forgot">Login</a>
+            </div>
+        </div>
+    </div>
+    <script src="JS/index.js" defer></script>
+</body>
+</html>
