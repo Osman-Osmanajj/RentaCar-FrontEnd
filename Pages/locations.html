@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Locations - SpeedyRent Car Rental</title>
+    <link rel="stylesheet" href="../Style/locations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="home.html" class="logo">Speedy<span>Rent</span></a>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="cars.html">Cars</a></li>
+                    <li><a href="locations.html" class="active">Locations</a></li>
+                    <li><a href="AboutUs.html">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="locations-hero">
+            <div class="container">
+                <h1>Our Locations in Kosovo</h1>
+                <p>Find and rent cars from our convenient locations across the country</p>
+            </div>
+        </section>
+
+        <section class="locations-section">
+            <div class="container">
+                <div class="location-selector">
+                    <h2>Select a Location</h2>
+                    <div class="location-tabs">
+                        <button class="location-tab active" data-location="pristina">Pristina</button>
+                        <button class="location-tab" data-location="prizren">Prizren</button>
+                        <button class="location-tab" data-location="gjakova">Gjakova</button>
+                    </div>
+                </div>
+
+                <div class="location-content">
+                    <div class="map-container">
+                        <div id="locationMap"></div>
+                    </div>
+                    
+                    <div class="location-info">
+                        <h2 id="currentLocation">Pristina</h2>
+                        <div class="location-details">
+                            <p><i class="fas fa-map-marker-alt"></i> <span id="locationAddress">Rr. Nëna Terezë 45, Pristina</span></p>
+                            <p><i class="fas fa-phone"></i> <span id="locationPhone">+383 44 123 456</span></p>
+                            <p><i class="fas fa-clock"></i> <span id="locationHours">Mon-Sun: 8:00 AM - 8:00 PM</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="available-cars">
+            <div class="container">
+                <h2>Available Cars in <span id="locationName">Pristina</span></h2>
+                <div class="cars-grid" id="locationCarsGrid">
+                    <!-- Cars will be loaded dynamically based on location -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SpeedyRent</h3>
+                    <p>Your trusted partner for all your car rental needs in Kosovo since 2010.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="cars.html">Cars</a></li>
+                        <li><a href="locations.html">Locations</a></li>
+                        <li><a href="AboutUs.html">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Our Locations</h3>
+                    <ul>
+                        <li><a href="locations.html?location=pristina">Pristina</a></li>
+                        <li><a href="locations.html?location=prizren">Prizren</a></li>
+                        <li><a href="locations.html?location=gjakova">Gjakova</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-headset"></i> +383 44 000 000</li>
+                        <li><i class="fas fa-envelope"></i> info@speedyrent.com</li>
+                        <li><i class="fas fa-clock"></i> 24/7 Support</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 SpeedyRent. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="../JS/locations.js"></script>
+</body>
+</html>
