@@ -62,26 +62,51 @@ document.addEventListener("DOMContentLoaded", function () {
     function validateConfirmPassword(password, confirmPassword) {
         return password === confirmPassword;
     }
+document.querySelector("#login-form form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    clearErrors(this);
 
-    document.querySelector("#login-form form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        clearErrors(this);
+    const usernameInput = this.querySelector('input[type="text"]');
+    const passwordInput = this.querySelector('input[type="password"]');
+    let isValid = true;
 
-        const usernameInput = this.querySelector('input[type="text"]');
-        const passwordInput = this.querySelector('input[type="password"]');
-        let isValid = true;
+    if (usernameInput.value.trim() === "") {
+        showError(usernameInput, "Username is required.");
+        isValid = false;
+    }
+    if (!validatePassword(passwordInput.value)) {
+        showError(passwordInput, "Password must be at least 8 characters long and contain letters, numbers, and special characters.");
+        isValid = false;
+    }
 
-        if (usernameInput.value.trim() === "") {
-            showError(usernameInput, "Username is required.");
-            isValid = false;
+    if (isValid) {
+        try {
+            const response = await fetch("http://localhost:3000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: usernameInput.value.trim(),
+                    password: passwordInput.value
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Login successful!");
+                localStorage.setItem("token", data.token);
+                window.location.href = "Pages/home.html";
+            } else {
+                alert(data.message || "Login failed");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Server error");
         }
-        if (!validatePassword(passwordInput.value)) {
-            showError(passwordInput, "Password must be at least 8 characters long and contain letters, numbers, and special characters.");
-        
-        }
-
-        if (isValid) this.submit();
-    });
+    }
+});
 
     document.querySelector("#register-form form").addEventListener("submit", function (event) {
         event.preventDefault();
