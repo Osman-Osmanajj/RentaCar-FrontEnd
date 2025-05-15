@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Admin Dashboard – DriveEasy</title>
+  <link rel="stylesheet" href="../Style/admin.css">
+<script src="../../JS/admin/checkAdmin.js"></script>
+</head>
+<body>
+  <header class="admin-header">
+    <h1>DriveEasy Admin</h1>
+    <button id="logoutBtn">Logout</button>
+  </header>
+  <main class="admin-main">
+    <section>
+      <h2>Statistics</h2>
+      <div id="stats">Loading…</div>
+    </section>
+    <section>
+      <h2>Manage Cars</h2>
+      <button id="addCarBtn">+ Add Car</button>
+      <div id="carList">Loading…</div>
+    </section>
+    <section>
+      <h2>Manage Users</h2>
+      <div id="userList">Loading…</div>
+    </section>
+  </main>
+  <script type="module" src="../JS/admin/dashboard.js" defer></script>
+</body>
+</html>
