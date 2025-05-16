@@ -34,73 +34,57 @@ document.getElementById('show-login-form-forgot').addEventListener('click', e =>
   show(loginContainer);
 });
 
-// ─── LOGIN ───────────────────────────────────────────
 document
   .getElementById('login-form-element')
   .addEventListener('submit', async e => {
     e.preventDefault();
 
     try {
-
       const email    = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
       
-      const response = fetch('http://localhost:3000/api/auth/login', {
+      const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        credentials: 'include', 
         headers: {
           'Content-Type': 'application/json'
         },
-      })
-      const result = await (await response).json();
-      // persist tenant for all future calls
-      setTenant(result.user.tenant_id);
-
-      localStorage.setItem('userId', result.user.id);
-      localStorage.setItem("token", result.accessToken)
-
-      // redirect by role
-      if (result.user.role === 'Customer') {
-        window.location.href = 'Pages/home.html';
-      } else {
-        window.location.href = 'Pages/admin/dashboard.html';
-      }
-    }catch(error){
-      console.error(error)
-    }
-  });
-
-// ─── REGISTER ────────────────────────────────────────
-document
-  .getElementById('register-form-element')
-  .addEventListener('submit', async e => {
-    e.preventDefault();
-
-    const name     = document.getElementById('reg-username').value.trim();
-    const email    = document.getElementById('reg-email').value.trim();
-    const pw       = document.getElementById('reg-password').value;
-    const pw2      = document.getElementById('reg-password2').value;
-
-    if (pw !== pw2) {
-      return alert('Passwords do not match');
-    }
-
-    try {
-      await api('/user/users', {
-        method: 'POST',
-        body: {
-          name,
-          email,
-          password:   pw,
-          role:       'Customer',
-          tenant_id:  1  // or let them choose
-        }
+        body: JSON.stringify({ email, password })
       });
 
-      alert('Account created! Please log in.');
-      hide(registerContainer);
-      show(loginContainer);
-    } catch (err) {
-      alert(err.message+"test2");
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.message || 'Login failed');
+        return;
+      }
+
+      const result = await response.json();
+
+      // Optional: persist some info in localStorage
+      setTenant(result.user.tenant_id);
+      localStorage.setItem('userId', result.user.id);
+      localStorage.setItem('token', result.accessToken); // optional — cookie already stores it securely
+
+     
+        if (result.user.role === 'Manager') {
+        alert('Welcome Manager');
+        window.location.href = './Pages/admin/dashboard.html';
+
+        } else if (result.user.role === 'Customer') {
+        alert('Welcome Customer');
+        window.location.href = './Pages/home.html'; 
+        }
+        else if (result.user.role === 'Admin') {
+            alert('wolcome admin!!')
+        window.location.href = './Pages/SuperAdmin/dashboard.html';
+        }
+        else{
+            alert('Unknown role');
+            return;
+        }
+
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Something went wrong during login.');
     }
   });

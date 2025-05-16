@@ -9,4 +9,4 @@ function parseJwt (token) {
 }
 
     const LoggedUser = parseJwt(localStorage.getItem("token"))
-    if(LoggedUser.role != "Admin") window.location="/pages/home.html"
+    if(LoggedUser.role != "Manager") window.location="/pages/home.html"
