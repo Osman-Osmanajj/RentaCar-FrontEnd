@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available Cars - SpeedyRent Car Rental</title>
-    <link rel="stylesheet" href="../Style/cars.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>DriveEasy – Available Cars</title>
+  <link rel="stylesheet" href="../Style/cars.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  >
 </head>
 <body>
+  <header>
+    <div class="container header-container">
+      <a href="home.html" class="logo">Drive<span>Easy</span></a>
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="Cars.html" class="active">Cars</a></li>
+          <li><a href="AboutUs.html">About Us</a></li>
+          <li><a href="contactUs.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
     <main>
         <div class="container">
             <div class="page-header">
@@ -78,6 +97,5 @@
       document.getElementById('carList').innerHTML = '<p class="error">Error loading cars.</p>';
     });
 </script>
-
 </body>
 </html>

@@ -1,0 +1,36 @@
+/* Style/admin.css */
+body {
+  font-family: 'Segoe UI',sans-serif;
+  margin:0; padding:0;
+}
+.admin-header {
+  background:#0066cc; color:#fff;
+  padding:1rem; display:flex;
+  justify-content:space-between; align-items:center;
+}
+.admin-header button {
+  background:#ff9900; border:none; padding:.5rem 1rem;
+  color:#fff; cursor:pointer; border-radius:4px;
+}
+.admin-main {
+  padding:2rem;
+  display:grid; gap:2rem;
+}
+.admin-main section {
+  background:#f9f9f9; padding:1rem; border-radius:6px;
+}
+.admin-car, .admin-user {
+  display:flex; justify-content:space-between;
+  padding:.5rem 0; border-bottom:1px solid #ddd;
+}
+.admin-car:last-child, .admin-user:last-child {
+  border:none;
+}
+.admin-car button, .admin-user button {
+  background:#c00; color:#fff; border:none;
+  padding:.3rem .6rem; border-radius:4px;
+  cursor:pointer;
+}
+.admin-car .editCar {
+  background:#0066cc; margin-right:.5rem;
+}

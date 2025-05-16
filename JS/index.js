@@ -1,162 +1,106 @@
-document.getElementById('show-register').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('login-form').style.display = 'none';
-    document.getElementById('register-form').style.display = 'block';
+// JS/index.js
+import { api, setTenant } from './api.js';
+
+const loginContainer    = document.getElementById('login-form');
+const registerContainer = document.getElementById('register-form');
+const forgotContainer   = document.getElementById('forgot-password-form');
+
+// show / hide helpers
+function show(el) { el.style.display = 'block'; }
+function hide(el) { el.style.display = 'none'; }
+
+// ─── Tab toggles ─────────────────────────────────────
+document.getElementById('show-register').addEventListener('click', e => {
+  e.preventDefault();
+  hide(loginContainer);
+  show(registerContainer);
 });
 
-document.getElementById('show-login').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('register-form').style.display = 'none';
-    document.getElementById('login-form').style.display = 'block';
+document.getElementById('show-login').addEventListener('click', e => {
+  e.preventDefault();
+  hide(registerContainer);
+  show(loginContainer);
 });
 
-document.getElementById('show-forgot-password').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('login-form').style.display = 'none';
-    document.getElementById('forgot-password-form').style.display = 'block';
+document.getElementById('show-forgot-password').addEventListener('click', e => {
+  e.preventDefault();
+  hide(loginContainer);
+  show(forgotContainer);
 });
 
-document.getElementById('show-login-form-forgot').addEventListener('click', function(event) {
-    event.preventDefault();
-    document.getElementById('forgot-password-form').style.display = 'none';
-    document.getElementById('login-form').style.display = 'block';
+document.getElementById('show-login-form-forgot').addEventListener('click', e => {
+  e.preventDefault();
+  hide(forgotContainer);
+  show(loginContainer);
 });
 
+// ─── LOGIN ───────────────────────────────────────────
+document
+  .getElementById('login-form-element')
+  .addEventListener('submit', async e => {
+    e.preventDefault();
 
-document.addEventListener("DOMContentLoaded", function () {
-    function showError(input, message) {
-        console.log(`Show of error for: ${input.name || input.type}, Mesazhi: ${message}`);
-    
-        let errorElement = input.nextElementSibling;
-    
-        if (errorElement && errorElement.classList.contains("error-message")) {
-            errorElement.textContent = message;
-        } else {
-            errorElement = document.createElement("div");
-            errorElement.className = "error-message";
-            errorElement.style.color = "red";
-            errorElement.style.fontSize = "14px";
-            input.parentNode.insertBefore(errorElement, input.nextSibling);
-            errorElement.textContent = message;
-        }
+    try {
+
+      const email    = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      
+      const response = fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      const result = await (await response).json();
+      // persist tenant for all future calls
+      setTenant(result.user.tenant_id);
+
+      localStorage.setItem('userId', result.user.id);
+      localStorage.setItem("token", result.accessToken)
+
+      // redirect by role
+      if (result.user.role === 'Customer') {
+        window.location.href = 'Pages/home.html';
+      } else {
+        window.location.href = 'Pages/admin/dashboard.html';
+      }
+    }catch(error){
+      console.error(error)
     }
-    
+  });
 
-    function clearErrors(form) {
-        form.querySelectorAll(".error-message").forEach((el) => el.remove());
-    }
+// ─── REGISTER ────────────────────────────────────────
+document
+  .getElementById('register-form-element')
+  .addEventListener('submit', async e => {
+    e.preventDefault();
 
-    function validateEmail(email) {
-        return validator.isEmail(email);
-    }
+    const name     = document.getElementById('reg-username').value.trim();
+    const email    = document.getElementById('reg-email').value.trim();
+    const pw       = document.getElementById('reg-password').value;
+    const pw2      = document.getElementById('reg-password2').value;
 
-    function validatePassword(password) {
-        return (
-            validator.isLength(password, { min: 8 }) &&
-            /[a-zA-Z]/.test(password) &&
-            /[0-9]/.test(password) &&
-            /[!@#$%^&*.,]/.test(password)
-        );
-    }
-
-    function validateConfirmPassword(password, confirmPassword) {
-        return password === confirmPassword;
-    }
-document.querySelector("#login-form form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-    clearErrors(this);
-
-    const usernameInput = this.querySelector('input[type="text"]');
-    const passwordInput = this.querySelector('input[type="password"]');
-    let isValid = true;
-
-    if (usernameInput.value.trim() === "") {
-        showError(usernameInput, "Username is required.");
-        isValid = false;
-    }
-    if (!validatePassword(passwordInput.value)) {
-        showError(passwordInput, "Password must be at least 8 characters long and contain letters, numbers, and special characters.");
-        isValid = false;
+    if (pw !== pw2) {
+      return alert('Passwords do not match');
     }
 
-    if (isValid) {
-        try {
-            const response = await fetch("http://localhost:3000/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email: usernameInput.value.trim(),
-                    password: passwordInput.value
-                })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                alert("Login successful!");
-                localStorage.setItem("token", data.token);
-                window.location.href = "Pages/home.html";
-            } else {
-                alert(data.message || "Login failed");
-            }
-        } catch (error) {
-            console.error("Login error:", error);
-            alert("Server error");
+    try {
+      await api('/user/users', {
+        method: 'POST',
+        body: {
+          name,
+          email,
+          password:   pw,
+          role:       'Customer',
+          tenant_id:  1  // or let them choose
         }
+      });
+
+      alert('Account created! Please log in.');
+      hide(registerContainer);
+      show(loginContainer);
+    } catch (err) {
+      alert(err.message+"test2");
     }
-});
-
-    document.querySelector("#register-form form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        clearErrors(this);
-
-        const usernameInput = this.querySelector('input[type="text"]');
-        const emailInput = this.querySelector('input[type="email"]');
-        const passwordInput = this.querySelectorAll('input[type="password"]')[0];
-        const confirmPasswordInput = this.querySelectorAll('input[type="password"]')[1];
-        let isValid = true;
-
-        if (usernameInput.value.trim() === "") {
-            showError(usernameInput, "Username is required.");
-            isValid = false;
-        }
-        if (!validateEmail(emailInput.value.trim())) {
-            showError(emailInput, "Please enter a valid email ending in .com.");
-            isValid = false;
-        }
-        console.log(validateEmail(emailInput.value.trim()));
-        if (!validatePassword(passwordInput.value)) {
-            showError(passwordInput, "Password must be at least 8 characters long and contain letters, numbers, and special characters.");
-            isValid = false;
-        }
-        if (!validateConfirmPassword(passwordInput.value, confirmPasswordInput.value)) {
-            showError(confirmPasswordInput, "Passwords do not match.");
-            isValid = false;
-        }
-
-        if (isValid) this.submit();
-    });
-
-    document.querySelector("#forgot-password-form form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        clearErrors(this);
-
-        const emailInput = this.querySelector('input[type="email"]');
-        const otpInput = this.querySelector("#OTP-code");
-        let isValid = true;
-
-        if (!validateEmail(emailInput.value.trim())) {
-            showError(emailInput, "Please enter a valid email ending in .com.");
-            isValid = false;
-        }
-        if (otpInput.value.trim() === "") {
-            showError(otpInput, "OTP code is required.");
-            isValid = false;
-        }
-
-        if (isValid) alert("OTP Verified Successfully!");
-    });
-});
-
+  });
