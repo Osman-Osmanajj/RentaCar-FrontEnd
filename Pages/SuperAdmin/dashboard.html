@@ -1,12 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Super Admin</title>
+  <link rel="stylesheet" href="../../Style/admin/super.css" />
+  <script type="module" src="../../JS/admin/super.js" defer></script>
 </head>
 <body>
-asdsad
+  <aside>
+    <div class="title">Super Admin</div>
+    <nav>
+      <a href="#tenants">Tenants</a>
+      <a href="#users">Global Users</a>
+      <a href="#bookings">Bookings</a>
+      <a href="#settings">Settings</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header><h1>Super Admin Dashboard</h1></header>
+
+    <!-- Tenants -->
+    <section id="tenants">
+      <h2>All Tenants</h2>
+      <form id="tenant-form">
+        <input type="hidden" id="tenant-id" />
+        <input type="text" id="tenant-name" placeholder="Name" required />
+        <input type="email" id="tenant-email" placeholder="Email" required />
+        <input type="text" id="tenant-phone" placeholder="Phone" required />
+        <input type="text" id="tenant-address" placeholder="Address" required />
+        <input type="text" id="tenant-city" placeholder="City" required />
+        <input type="text" id="tenant-country" placeholder="Country" required />
+        <button type="submit" id="save-tenant-btn">Save Tenant</button>
+        <button type="button" id="cancel-tenant-btn" style="display:none;">Cancel</button>
+      </form>
+      <table id="tenants-table">
+        <thead><tr>
+          <th>ID</th><th>Name</th><th>City</th><th>Email</th><th>Actions</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Global Users -->
+    <section id="users">
+      <h2>Global Users</h2>
+      <table id="all-users-table">
+        <thead><tr>
+          <th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Tenant</th><th>Actions</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Bookings -->
+    <section id="bookings">
+      <h2>All Bookings</h2>
+      <table id="all-bookings-table">
+        <thead><tr>
+          <th>ID</th><th>Tenant</th><th>Car</th><th>User</th>
+          <th>Dates</th><th>Status</th><th>Total</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Settings Placeholder -->
+    <section id="settings">
+      <h2>Settings</h2>
+      <p>No global settings configured yet.</p>
+    </section>
+  </div>
+  <script src="../../JS/admin/CheckSuperAdmin.js"></script>
 </body>
 </html>

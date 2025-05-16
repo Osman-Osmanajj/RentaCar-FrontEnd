@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Locations - SpeedyRent Car Rental</title>
+    <title>Our Locations - DriveEasy Car Rental</title>
     <link rel="stylesheet" href="../Style/locations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -11,14 +11,17 @@
 <body>
     <header>
         <div class="container header-container">
-            <a href="home.html" class="logo">Speedy<span>Rent</span></a>
+            <a href="home.html" class="logo">Drive<span>Easy</span></a>
             <nav>
                 <ul>
                     <li><a href="home.html">Home</a></li>
                     <li><a href="cars.html">Cars</a></li>
                     <li><a href="locations.html" class="active">Locations</a></li>
                     <li><a href="AboutUs.html">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="contactUs.html">Contact</a></li>
+                    <li>
+                        <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
+                    </li>
                 </ul>
             </nav>
             <div class="mobile-menu">
@@ -62,22 +65,13 @@
                 </div>
             </div>
         </section>
-
-        <section class="available-cars">
-            <div class="container">
-                <h2>Available Cars in <span id="locationName">Pristina</span></h2>
-                <div class="cars-grid" id="locationCarsGrid">
-                    <!-- Cars will be loaded dynamically based on location -->
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3>SpeedyRent</h3>
+                    <h3>DriveEasy</h3>
                     <p>Your trusted partner for all your car rental needs in Kosovo since 2010.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -93,7 +87,7 @@
                         <li><a href="cars.html">Cars</a></li>
                         <li><a href="locations.html">Locations</a></li>
                         <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="contactUs.html">Contact</a></li>
                     </ul>
                 </div>
                 
@@ -110,19 +104,21 @@
                     <h3>Contact Us</h3>
                     <ul>
                         <li><i class="fas fa-headset"></i> +383 44 000 000</li>
-                        <li><i class="fas fa-envelope"></i> info@speedyrent.com</li>
+                        <li><i class="fas fa-envelope"></i> info@driveeasy.com</li>
                         <li><i class="fas fa-clock"></i> 24/7 Support</li>
                     </ul>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2023 SpeedyRent. All rights reserved.</p>
+                <p>&copy; 2023 DriveEasy. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="../JS/locations.js"></script>
+    <script src="../JS/logout.js"></script>
+    <script src="../JS/admin/checkCustomer.js"></script>
 </body>
 </html>

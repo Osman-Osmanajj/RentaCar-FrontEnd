@@ -7,6 +7,8 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 }
+    const token = localStorage.getItem("token");
+    if (!token) window.location="../Index.html";
+    const LoggedUser = parseJwt(token);
 
-    const LoggedUser = parseJwt(localStorage.getItem("token"))
-    if(LoggedUser.role != "Customer") window.location="index.html"
+    if(LoggedUser.role != "Customer") window.location="../Index.html";

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>SuperAdmin — Tenants</title>
+  <link rel="stylesheet" href="../../Style/admin/super.css" />
+  <script type="module" src="../../JS/admin/tenants.js" defer></script>
+  <script src="../../JS/admin/CheckSuperAdmin.js"></script>
+</head>
+<body>
+  <aside>
+    <div class="title">Super Admin</div>
+    <nav>
+      <a href="tenants.html" class="active">Tenants</a>
+      <a href="users.html">Global Users</a>
+      <a href="bookings.html">Bookings</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </aside>
+  <div class="main">
+    <header><h1>Manage Tenants</h1></header>
+    <form id="tenant-form">
+      <input type="hidden" id="tenant-id" />
+      <input type="text"  id="tenant-name"    placeholder="Name" required />
+      <input type="email" id="tenant-email"   placeholder="Email" required />
+      <input type="text"  id="tenant-phone"   placeholder="Phone" required />
+      <input type="text"  id="tenant-address" placeholder="Address" required />
+      <input type="text"  id="tenant-city"    placeholder="City" required />
+      <input type="text"  id="tenant-country" placeholder="Country" required />
+      <button type="submit" id="save-tenant-btn">Save Tenant</button>
+      <button type="button" id="cancel-tenant-btn" style="display:none;">Cancel</button>
+    </form>
+    <table id="tenants-table">
+      <thead><tr>
+        <th>ID</th><th>Name</th><th>City</th><th>Email</th><th>Actions</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</body>
+</html>

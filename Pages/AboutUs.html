@@ -3,56 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - SpeedyRent Car Rental</title>
+    <title>About Us - DriveEasy Car Rental</title>
     <link rel="stylesheet" href="../Style/AboutUs.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-        <!-- Header -->
-        <header>
-            <div class="container header-container">
-                <a href="#" class="logo">Drive<span>Easy</span></a>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active">Home</a></li>
-                        <li><a href="cars.html">Cars</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="mobile-menu">
-                    <i class="fas fa-bars"></i>
-                </div>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="home.html" class="logo">Drive<span>Easy</span></a>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="Cars.html">Cars</a></li>
+                    <li><a href="locations.html">Locations</a></li>
+                    <li><a href="AboutUs.html" class="active">About Us</a></li>
+                    <li><a href="contactUs.html">Contact</a></li>
+                    <li>
+                         <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
+                     </li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
             </div>
-        </header>
+        </div>
+    </header>
+
     <main>
-        <div class="container">
+        <div class="page-header">
+            <h1>About DriveEasy</h1>
+            <p>Your trusted partner for all your car rental needs since 2010</p>
+        </div>
+        
+        <div class="about-container">
             <aside class="sidebar">
-                <div class="profile-card">
-                    <h2>SpeedyRent</h2>
-                    <p>Premium Car Rental Service</p>
-                </div>
-                <nav class="side-nav">
+                <nav class="sidebar-nav">
                     <ul>
-                        <li><a href="#our-story">Our Story</a></li>
-                        <li><a href="#our-mission">Our Mission</a></li>
-                        <li><a href="#our-team">Our Team</a></li>
-                        <li><a href="#our-values">Our Values</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#our-story"><i class="fas fa-history"></i> Our Story</a></li>
+                        <li><a href="#our-mission"><i class="fas fa-bullseye"></i> Our Mission</a></li>
+                        <li><a href="#our-team"><i class="fas fa-users"></i> Our Team</a></li>
+                        <li><a href="#our-values"><i class="fas fa-star"></i> Our Values</a></li>
+                        <li><a href="#testimonials"><i class="fas fa-quote-right"></i> Testimonials</a></li>
                     </ul>
                 </nav>
             </aside>
+            
             <div class="content">
-                <div class="about-header">
-                    <h1>About SpeedyRent</h1>
-                    <p>Your trusted partner for all your car rental needs since 2010</p>
-                </div>
-
                 <section id="our-story" class="about-section">
                     <h2>Our Story</h2>
                     <div class="section-content">
-                        <p>SpeedyRent was founded in 2010 with a simple mission: to provide high-quality rental cars at affordable prices with exceptional customer service. What started as a small fleet of just 5 cars has now grown to over 500 vehicles across 20 locations nationwide.</p>
+                        <p>DriveEasy was founded in 2010 with a simple mission: to provide high-quality rental cars at affordable prices with exceptional customer service. What started as a small fleet of just 5 cars has now grown to over 500 vehicles across 20 locations nationwide.</p>
                         <p>Our journey began when our founder, John Smith, experienced frustration with existing car rental services. He envisioned a more customer-friendly approach that eliminated hidden fees and complicated contracts. Today, we're proud to be one of the fastest-growing car rental companies in the country.</p>
                     </div>
                 </section>
@@ -60,7 +61,7 @@
                 <section id="our-mission" class="about-section">
                     <h2>Our Mission</h2>
                     <div class="section-content">
-                        <p>At SpeedyRent, our mission is to make car rental simple, transparent, and enjoyable. We believe in:</p>
+                        <p>At DriveEasy, our mission is to make car rental simple, transparent, and enjoyable. We believe in:</p>
                         <ul>
                             <li>Providing well-maintained, reliable vehicles</li>
                             <li>Offering transparent pricing with no hidden fees</li>
@@ -73,150 +74,244 @@
 
                 <section id="our-team" class="about-section">
                     <h2>Our Team</h2>
-                    <div class="team-grid">
-                        <div class="team-member">
-                            <h3>John Smith</h3>
-                            <p>Founder & CEO</p>
-                        </div>
-                        <div class="team-member">
-                            <h3>Sarah Johnson</h3>
-                            <p>Operations Director</p>
-                        </div>
-                        <div class="team-member">
-                            <h3>Michael Chen</h3>
-                            <p>Fleet Manager</p>
+                    <div class="section-content">
+                        <p>Our success is driven by our dedicated team of professionals who are passionate about providing the best car rental experience possible.</p>
+                        <div class="team-grid">
+                            <div class="team-member">
+                                <div class="team-member-info">
+                                    <h3>John Smith</h3>
+                                    <p>Founder & CEO</p>
+                                </div>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-member-info">
+                                    <h3>Sarah Johnson</h3>
+                                    <p>Operations Director</p>
+                                </div>
+                            </div>
+                            <div class="team-member">
+                                <div class="team-member-info">
+                                    <h3>Michael Chen</h3>
+                                    <p>Fleet Manager</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 <section id="our-values" class="about-section">
                     <h2>Our Values</h2>
-                    <div class="values-grid">
-                        <div class="value-card">
-                            <i class="fas fa-handshake"></i>
-                            <h3>Integrity</h3>
-                            <p>We believe in honest business practices and transparent pricing.</p>
+                    <div class="section-content">
+                        <p>Our core values guide everything we do at DriveEasy, from how we maintain our vehicles to how we interact with our customers.</p>
+                        <div class="values-grid">
+                            <div class="value-card">
+                                <i class="fas fa-handshake"></i>
+                                <h3>Integrity</h3>
+                                <p>We believe in honest business practices and transparent pricing.</p>
+                            </div>
+                            <div class="value-card">
+                                <i class="fas fa-star"></i>
+                                <h3>Excellence</h3>
+                                <p>We strive for excellence in every aspect of our service.</p>
+                            </div>
+                            <div class="value-card">
+                                <i class="fas fa-users"></i>
+                                <h3>Customer Focus</h3>
+                                <p>Our customers are at the heart of everything we do.</p>
+                            </div>
                         </div>
-                        <div class="value-card">
-                            <i class="fas fa-star"></i>
-                            <h3>Excellence</h3>
-                            <p>We strive for excellence in every aspect of our service.</p>
-                        </div>
-                        <div class="value-card">
-                            <i class="fas fa-users"></i>
-                            <h3>Customer Focus</h3>
-                            <p>Our customers are at the heart of everything we do.</p>
-                        </div>
-                        </div>
+                    </div>
                 </section>
 
                 <section id="testimonials" class="about-section">
                     <h2>What Our Customers Say</h2>
-                    <div class="testimonial-slider">
-                        <div class="testimonial active">
-                            <p>"SpeedyRent made my vacation hassle-free! The car was clean, the service was excellent, and the price was unbeatable."</p>
-                            <div class="testimonial-author">
-                                <div>
-                                    <h4>Robert Williams</h4>
-                                    <p>Verified Customer</p>
+                    <div class="section-content">
+                        <div class="testimonials-container">
+                            <div class="testimonial active">
+                                <p>"DriveEasy made my vacation hassle-free! The car was clean, the service was excellent, and the price was unbeatable. I'll definitely be using their services again for my next trip."</p>
+                                <div class="testimonial-author">
+                                    <div class="testimonial-author-info">
+                                        <h4>Robert Williams</h4>
+                                        <p>Verified Customer</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="testimonial">
-                            <p>"As a business traveler, I appreciate the efficiency and reliability of SpeedyRent. Their mobile app makes booking and pickup incredibly fast."</p>
-                            <div class="testimonial-author">
-                                <div>
-                                    <h4>Emily Thompson</h4>
-                                    <p>Verified Customer</p>
+                            <div class="testimonial">
+                                <p>"As a business traveler, I appreciate the efficiency and reliability of DriveEasy. Their mobile app makes booking and pickup incredibly fast, and their vehicles are always in excellent condition."</p>
+                                <div class="testimonial-author">
+                                    <div class="testimonial-author-info">
+                                        <h4>Emily Thompson</h4>
+                                        <p>Verified Customer</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="testimonial">
-                            <p>"I've been renting from SpeedyRent for years and have never been disappointed. Their customer service is truly exceptional."</p>
-                            <div class="testimonial-author">
-                                <div>
-                                    <h4>David Martinez</h4>
-                                    <p>Verified Customer</p>
+                            <div class="testimonial">
+                                <p>"I've been renting from DriveEasy for years and have never been disappointed. Their customer service is truly exceptional, and they always go above and beyond to ensure a great experience."</p>
+                                <div class="testimonial-author">
+                                    <div class="testimonial-author-info">
+                                        <h4>David Martinez</h4>
+                                        <p>Verified Customer</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="controls">
-                            <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
-                            <div class="dots">
-                                <span class="dot active"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
+                            
+                            <div class="testimonial-controls">
+                                <button class="testimonial-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                                <div class="testimonial-dots">
+                                    <button class="testimonial-dot active"></button>
+                                    <button class="testimonial-dot"></button>
+                                    <button class="testimonial-dot"></button>
+                                </div>
+                                <button class="testimonial-btn next-btn"><i class="fas fa-chevron-right"></i></button>
                             </div>
-                            <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </section>
 
-                <section class="cta-section">
-                    <h2>Ready to Experience SpeedyRent?</h2>
+                <div class="cta-section">
+                    <h2>Ready to Experience DriveEasy?</h2>
                     <p>Join thousands of satisfied customers who choose us for their car rental needs.</p>
                     <div class="cta-buttons">
-                        <a href="#" class="btn primary">Book a Car Now</a>
-                        <a href="#" class="btn secondary">Contact Us</a>
+                        <a href="Cars.html" class="btn btn-primary">Book a Car Now</a>
+                        <a href="contactUs.html" class="btn btn-secondary">Contact Us</a>
                     </div>
-                </section>
+                </div>
             </div>
         </div>
     </main>
 
-    <script src="../JS/script.js"></script>
-</body>
- <!-- Footer -->
- <footer>
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>DriveEasy</h3>
-                <p>Your trusted partner for car rentals. We provide quality vehicles at competitive prices with exceptional customer service.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DriveEasy</h3>
+                    <p>Your trusted partner for car rentals. We provide quality vehicles at competitive prices with exceptional customer service.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="Cars.html">Cars</a></li>
+                        <li><a href="locations.html">Locations</a></li>
+                        <li><a href="AboutUs.html">About Us</a></li>
+                        <li><a href="contactUs.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Airport Rentals</a></li>
+                        <li><a href="#">Long Term Rentals</a></li>
+                        <li><a href="#">Business Rentals</a></li>
+                        <li><a href="#">One Way Rentals</a></li>
+                        <li><a href="#">Luxury Rentals</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Rental St, City</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@driveeasy.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sun: 24/7</li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="cars.html">Cars</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="AboutUs.html">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Services</h3>
-                <ul>
-                    <li><a href="#">Airport Rentals</a></li>
-                    <li><a href="#">Long Term Rentals</a></li>
-                    <li><a href="#">Business Rentals</a></li>
-                    <li><a href="#">One Way Rentals</a></li>
-                    <li><a href="#">Luxury Rentals</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Contact Us</h3>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Rental St, City</li>
-                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                    <li><i class="fas fa-envelope"></i> info@driveeasy.com</li>
-                    <li><i class="fas fa-clock"></i> Mon-Sun: 24/7</li>
-                </ul>
+            <div class="copyright">
+                <p>&copy; 2023 DriveEasy Rentals. All rights reserved.</p>
             </div>
         </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navMenu = document.querySelector('nav ul');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
         
-        <div class="copyright">
-            <p>&copy; 2023 DriveEasy Rentals. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
+        // Testimonial slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const testimonials = document.querySelectorAll('.testimonial');
+            const dots = document.querySelectorAll('.testimonial-dot');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            
+            let currentIndex = 0;
+            
+            function showTestimonial(index) {
+                testimonials.forEach(testimonial => {
+                    testimonial.classList.remove('active');
+                });
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
+                testimonials[index].classList.add('active');
+                dots[index].classList.add('active');
+            }
+            
+            nextBtn.addEventListener('click', function() {
+                currentIndex++;
+                if (currentIndex >= testimonials.length) {
+                    currentIndex = 0;
+                }
+                showTestimonial(currentIndex);
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                currentIndex--;
+                if (currentIndex < 0) {
+                    currentIndex = testimonials.length - 1;
+                }
+                showTestimonial(currentIndex);
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    currentIndex = index;
+                    showTestimonial(currentIndex);
+                });
+            });
+            
+            // Auto-rotate testimonials
+            setInterval(function() {
+                currentIndex++;
+                if (currentIndex >= testimonials.length) {
+                    currentIndex = 0;
+                }
+                showTestimonial(currentIndex);
+            }, 5000);
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="../JS/logout.js"></script>
+    <script src="../JS/admin/checkCustomer.js"></script>
+</body>
 </html>

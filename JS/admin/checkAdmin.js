@@ -8,5 +8,8 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 
-    const LoggedUser = parseJwt(localStorage.getItem("token"))
-    if(LoggedUser.role != "Manager") window.location="/pages/home.html"
+
+    const token = localStorage.getItem("token")
+    if (!token) window.location="../../Index.html"
+    const LoggedUser = parseJwt(token)
+    if(LoggedUser.role != "Manager") window.location="../../Index.html"
