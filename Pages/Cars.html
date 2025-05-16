@@ -1,101 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DriveEasy – Available Cars</title>
-  <link rel="stylesheet" href="../Style/cars.css">
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  >
+  <link rel="stylesheet" href="../Style/cars.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-  <header>
-    <div class="container header-container">
-      <a href="home.html" class="logo">Drive<span>Easy</span></a>
-      <nav>
-        <ul>
-          <li><a href="home.html">Home</a></li>
-          <li><a href="Cars.html" class="active">Cars</a></li>
-          <li><a href="AboutUs.html">About Us</a></li>
-          <li><a href="contactUs.html">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="mobile-menu">
-        <i class="fas fa-bars"></i>
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Available Cars</h1>
+      </div>
+      <div class="car-grid" id="carsGrid">
+        <!-- cars will be injected here -->
       </div>
     </div>
-  </header>
-    <main>
-        <div class="container">
-            <div class="page-header">
-                <h1>Available Cars</h1>
-                <p>Browse our selection of quality vehicles ready for rent</p>
+  </main>
+
+  <script type="module">
+    import { api } from '../JS/api.js';
+
+    const grid = document.getElementById('carsGrid');
+
+    (async () => {
+      try {
+        // 1) Load all cars (sends cookies + tenant header + auto-refresh)
+        const cars = await api('/car/all');
+
+        // 2) Load all images
+        const images = await api('/carimage/all');
+        const imgMap = images.reduce((map, img) => {
+          if (!map[img.car_id]) map[img.car_id] = [];
+          map[img.car_id].push(img.image_url);
+          return map;
+        }, {});
+
+        // 3) Clear grid
+        grid.innerHTML = '';
+
+        // 4) If no cars
+        if (!cars.length) {
+          grid.innerHTML = '<p>No cars available.</p>';
+          return;
+        }
+
+        // 5) Render
+        cars.forEach(car => {
+          const url = imgMap[car.id]?.[0]
+            || 'https://via.placeholder.com/300x200?text=No+Image';
+          const card = document.createElement('div');
+          card.className = 'car-card';
+          card.innerHTML = `
+            <div class="car-image">
+              <img src="${url}" alt="${car.make} ${car.model}" />
             </div>
-            <div class="car-grid" id="carList">
+            <div class="car-info">
+              <h2>${car.make} ${car.model}</h2>
+              <div class="car-details">
+                <span><i class="fas fa-tag"></i> ${car.car_type?.name || 'N/A'}</span>
+                <span><i class="fas fa-gas-pump"></i> ${car.status}</span>
+                <span class="price">$${car.total_price || '–'}/day</span>
+              </div>
             </div>
-        </div>
-    </main>
-
-    <script>
-  const tenantId = 1;
-  const userId = 1;
-  const API_URL = 'http://localhost:3000/api/car/img-type';
-
-  fetch(API_URL, {
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Tenant-ID': tenantId
-    }
-  })
-    .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
-    .then(cars => {
-      const carList = document.getElementById('carList');
-      carList.innerHTML = '';
-
-      cars.forEach(car => {
-        const carCard = document.createElement('div');
-        carCard.className = 'car-card';
-
-        const carImages = car.CarImages || [];
-        const imgUrl = carImages.length
-          ? carImages[0].image_url
-          : 'https://via.placeholder.com/300x200?text=No+Image';
-
-
-        const carTypeName = car.CarType?.name || 'No Type';
-      
-        const btn = document.createElement('button');
-        btn.className = 'book-button';
-        btn.type = 'button';
-        btn.addEventListener('click', () => {
-          window.location.href = `mybooking.html?carId=${car.id}&tenantId=${tenantId}&userId=${userId}`;
-          // localStorage.setItem("ID",car.id)
-          // localStorage.setItem("tenant",tenantId)
+          `;
+          card.addEventListener('click', () => {
+            window.location.href = `MyBooking.html?car=${car.id}`;
+          });
+          grid.appendChild(card);
         });
-
-        btn.innerHTML = `
-          <div class="car-image"><img src="${imgUrl}" alt="${car.make} ${car.model}"></div>
-          <div class="car-info">
-            <h2>${car.make} ${car.model}</h2>
-            <div class="car-details">
-              <span><i class="fas fa-calendar-alt"></i> ${car.year}</span>
-              <span><i class="fas fa-id-card"></i> ${car.license_plate}</span>
-              <span><i class="fas fa-flag"></i> ${car.status}</span>
-              <span><i class="fas fa-car"></i> ${carTypeName}</span>
-            </div>
-          </div>
-        `;
-
-        carCard.appendChild(btn);
-        carList.appendChild(carCard);
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('carList').innerHTML = '<p class="error">Error loading cars.</p>';
-    });
-</script>
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = `<p class="error">Error loading cars: ${err.message}</p>`;
+      }
+    })();
+  </script>
 </body>
 </html>
