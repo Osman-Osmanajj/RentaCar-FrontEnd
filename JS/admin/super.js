@@ -50,7 +50,7 @@ async function loadTenants() {
   tbody.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', async () => {
       if (!confirm('Delete this tenant?')) return;
-      await api(`/tenants/tenants/${btn.dataset.id}`, { method: 'DELETE' });
+        await api(`/tenants/tenants/${btn.dataset.id}`, { method: 'DELETE' });
       loadTenants();
     });
   });

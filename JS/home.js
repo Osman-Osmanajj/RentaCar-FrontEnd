@@ -28,17 +28,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ─── When a location is chosen, set tenant + load car types ─────
   locationSelect.addEventListener('change', async () => {
-    const tenantId = locationSelect.value;
-    if (!tenantId) {
+    const tenantIdVal = locationSelect.value;
+    if (!tenantIdVal) {
       carTypeSelect.innerHTML = '<option value="">Select Car Type</option>';
       return;
     }
-    setTenant(tenantId);
+
+    setTenant(tenantIdVal);
+    console.log(`[home.js] setTenant(${tenantIdVal})`);
 
     try {
-      const types = await api('/cartypes/all', {
-        headers: { 'X-Tenant-ID': tenantId }
-        });
+      // 🔑 No custom headers here — api() will inject X-Tenant-ID for you
+      const types = await api('/cartypes/all');
+      console.log('[home.js] fetched car types:', types);
+
       carTypeSelect.innerHTML = '<option value="">Select Car Type</option>';
       types.forEach(ct => {
         const opt = document.createElement('option');
@@ -48,6 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     } catch (err) {
       console.error('Error loading car types:', err);
+      alert('Failed to load car types — check console for details');
     }
   });
 
@@ -72,34 +76,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('searchForm')?.addEventListener('submit', async e => {
     e.preventDefault();
 
-    const tenantId = locationSelect.value;
-    const from     = pickupDate.value;
-    const to       = returnDate.value;
-    const type     = carTypeSelect.value;
+    const tenantIdVal = locationSelect.value;
+    const from        = pickupDate.value;
+    const to          = returnDate.value;
+    const type        = carTypeSelect.value;
 
-    if (!tenantId) {
-      return alert('Please select a pickup location.');
-    }
-    if (!from || !to) {
-      return alert('Please select both pickup and return dates.');
-    }
-    if (!type) {
-      return alert('Please select a car type.');
-    }
+    if (!tenantIdVal) return alert('Please select a pickup location.');
+    if (!from || !to) return alert('Please select both pickup and return dates.');
+    if (!type)        return alert('Please select a car type.');
 
     try {
       // fetch all cars in this tenant
       const cars = await api('/car/all');
-      // client-side filter by type + status
+      // client-side filter by type + availability
       const filtered = cars.filter(c =>
         +c.car_type_id === +type && c.status === 'Available'
       );
 
-      // store for Cars.html
       localStorage.setItem('searchResults', JSON.stringify(filtered));
       localStorage.setItem('searchDates', JSON.stringify({ from, to }));
-
-      // go to results
       window.location.href = 'Cars.html';
     } catch (err) {
       console.error('Search error:', err);
