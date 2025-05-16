@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Booking - Payment</title>
-    <link rel="stylesheet" href="../Style/MyBooking.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Book Your Car</title>
+  <link
+    rel="stylesheet"
+    href="../Style/MyBooking.css"
+  />
+
 </head>
 <body>
-
-    <div class="container">
-        <h2>Confirm Your Booking</h2>
-
-        <div class="booking-details">
-            <div class="car-container">
-                
-            </div>
-        </div>
-
-        <h3>Select Payment Method</h3>
-        <div class="payment-options">
-            <label class="payment-option">
-                <input type="radio" name="payment" checked>
-                <span>Credit/Debit Card</span>
-            </label>
-            <label class="payment-option">
-                <input type="radio" name="payment">
-                <span>PayPal</span>
-            </label>
-            <label class="payment-option">
-                <input type="radio" name="payment">
-                <span>Cash on Pickup</span>
-            </label>
-        </div>
-
-        <button class="confirm-btn" onclick="confirmBooking()">Confirm Booking</button>
-
-        <p id="confirmation-message"></p>
+  <div class="container">
+    <div class="car-header" id="carImageContainer"></div>
+    <div class="car-title" id="carInfoContainer">
+      <h2>Loading car…</h2>
     </div>
+
+
+    <form id="bookingForm">
+      <label>
+        Pick-up Date
+        <input type="date" id="startDate" required />
+      </label>
+      <label>
+        Return Date
+        <input type="date" id="endDate" required />
+      </label>
+      <button type="submit">Confirm Booking</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
 
     <script src="../JS/MyBooking.js"></script>
 </body>

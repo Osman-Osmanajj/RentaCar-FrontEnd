@@ -20,55 +20,64 @@
     </main>
 
     <script>
-      const tenantId = 1;  
+  const tenantId = 1;
+  const userId = 1;
+  const API_URL = 'http://localhost:3000/api/car/img-type';
 
-      fetch(`http://localhost:3000/api/car/img-type`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Tenant-ID': tenantId
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          const carList = document.getElementById('carList');
-          carList.innerHTML = '';
+  fetch(API_URL, {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Tenant-ID': tenantId
+    }
+  })
+    .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+    .then(cars => {
+      const carList = document.getElementById('carList');
+      carList.innerHTML = '';
 
-          data.forEach(car => {
-            const carCard = document.createElement('div');
-            carCard.className = 'car-card';
+      cars.forEach(car => {
+        const carCard = document.createElement('div');
+        carCard.className = 'car-card';
 
-            const carImages = car.CarImages || [];
-            const imageHtml = carImages.length > 0
-              ? `<div class="car-image"><img src="${carImages[0].image_url}" alt="${car.make} ${car.model}"></div>`
-              : `<div class="car-image"><p><em>No image available</em></p></div>`;
-            
-            const carType = car.CarType;
+        const carImages = car.CarImages || [];
+        const imgUrl = carImages.length
+          ? carImages[0].image_url
+          : 'https://via.placeholder.com/300x200?text=No+Image';
 
-            const typeHtml = carType && carType.name
-              ? carType.name
-              : 'No Type';
 
-            carCard.innerHTML = `
-              ${imageHtml}
-              <div class="car-info">
-                <h2>${car.make} ${car.model}</h2>
-                <div class="car-details">
-                  <span><i class="fas fa-calendar-alt"></i> ${car.year}</span>
-                  <span><i class="fas fa-id-card"></i> ${car.license_plate}</span>
-                  <span><i class="fas fa-flag"></i> ${car.status}</span>
-                  <span><i class="fas fa-car"></i>${typeHtml}</span>
-                </div>
-              </div>
-            `;
-
-            carList.appendChild(carCard);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching car images:', error);
-          document.getElementById('carList').innerHTML = '<p>Error loading cars.</p>';
+        const carTypeName = car.CarType?.name || 'No Type';
+      
+        const btn = document.createElement('button');
+        btn.className = 'book-button';
+        btn.type = 'button';
+        btn.addEventListener('click', () => {
+          window.location.href = `mybooking.html?carId=${car.id}&tenantId=${tenantId}&userId=${userId}`;
+          // localStorage.setItem("ID",car.id)
+          // localStorage.setItem("tenant",tenantId)
         });
-    </script>
+
+        btn.innerHTML = `
+          <div class="car-image"><img src="${imgUrl}" alt="${car.make} ${car.model}"></div>
+          <div class="car-info">
+            <h2>${car.make} ${car.model}</h2>
+            <div class="car-details">
+              <span><i class="fas fa-calendar-alt"></i> ${car.year}</span>
+              <span><i class="fas fa-id-card"></i> ${car.license_plate}</span>
+              <span><i class="fas fa-flag"></i> ${car.status}</span>
+              <span><i class="fas fa-car"></i> ${carTypeName}</span>
+            </div>
+          </div>
+        `;
+
+        carCard.appendChild(btn);
+        carList.appendChild(carCard);
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('carList').innerHTML = '<p class="error">Error loading cars.</p>';
+    });
+</script>
+
 </body>
 </html>
