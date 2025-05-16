@@ -1,20 +1,37 @@
-<!-- Pages/MyBooking.html -->
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>DriveEasy – Confirm booking</title>
-  <link rel="stylesheet" href="../Style/MyBooking.css">
-</head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Book Your Car</title>
+  <link
+    rel="stylesheet"
+    href="../Style/MyBooking.css"
+  />
+
+</head>
+<body>
   <div class="container">
-    <h2>Confirm your booking</h2>
-    <div class="booking-details"><div class="car-container"></div></div>
-    <h3>Payment method</h3>
-    <div class="payment-options">
-      <label class="payment-option"><input type="radio" name="pay" checked><span>Card</span></label>
-      <label class="payment-option"><input type="radio" name="pay"><span>PayPal</span></label>
-      <label class="payment-option"><input type="radio" name="pay"><span>Cash</span></label>
+    <div class="car-header" id="carImageContainer"></div>
+    <div class="car-title" id="carInfoContainer">
+      <h2>Loading car…</h2>
     </div>
-    <button class="confirm-btn">Confirm Booking</button>
-    <p id="confirmation-message"></p>
+
+
+    <form id="bookingForm">
+      <label>
+        Pick-up Date
+        <input type="date" id="startDate" required />
+      </label>
+      <label>
+        Return Date
+        <input type="date" id="endDate" required />
+      </label>
+      <button type="submit">Confirm Booking</button>
+    </form>
+    <div class="message" id="message"></div>
   </div>
-  <script type="module" src="../JS/MyBooking.js" defer></script>
-</body></html>
+
+    <script src="../JS/MyBooking.js"></script>
+</body>
+</html>

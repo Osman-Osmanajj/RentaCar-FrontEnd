@@ -1,131 +1,127 @@
-/* Reset and base styles */
+/* Reset & Base */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5;
-    color: #1c1e21;
-    line-height: 1.6;
-    padding: 30px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  color: #1c1e21;
+  padding: 30px 0;
 }
 
-/* Container */
+/* Container & Header */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
-
-/* Page header */
 .page-header {
-    text-align: center;
-    margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 40px;
 }
-
 .page-header h1 {
-    color: #1877f2;
-    font-size: 32px;
-    margin-bottom: 10px;
+  color: #1877f2;
+  font-size: 32px;
+  margin-bottom: 5px;
 }
-
 .page-header p {
-    color: #65676b;
-    font-size: 16px;
+  color: #65676b;
+  font-size: 16px;
 }
 
-/* Car grid */
+/* Card Grid */
 .car-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  align-items: start;
+  margin-top: 20px;
 }
 
-/* Car card */
+/* Individual Card */
 .car-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
 }
-
 .car-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
+/* Image Section */
 .car-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
+  width: 100%;
+  height: 180px;
+  background: #ddd;
+  overflow: hidden;
 }
-
 .car-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
 }
-
 .car-card:hover .car-image img {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
+/* Info Section */
 .car-info {
-    padding: 15px;
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
-
 .car-info h2 {
-    color: #1877f2;
-    font-size: 18px;
-    margin-bottom: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 20px;
+  color: #1877f2;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.car-details {
+  display: flex;
+  flex-direction: column;  /* stack items vertically */
+  gap: 8px;                /* space between lines */
+  font-size: 14px;
+  color: #65676b;
 }
 
-.car-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 14px;
-    color: #65676b;
+.car-card button {
+   
+    border: none;
 }
 
 .car-details span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-
 .car-details i {
-    color: #1877f2;
+  color: #1877f2;
 }
 
-.car-details .price {
-    font-weight: 700;
-    color: #1877f2;
-    margin-left: auto;
+/* Fallback / Error */
+.error {
+  color: red;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Responsive styles */
+/* Responsive tweaks */
 @media (max-width: 768px) {
-    .car-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-    }
+  .car-image { height: 160px; }
 }
-
 @media (max-width: 576px) {
-    .car-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .car-image {
-        height: 180px;
-    }
+  .car-image { height: 140px; }
+  .page-header h1 { font-size: 28px; }
 }
