@@ -1,150 +1,58 @@
+@import url('base.css');
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fafafa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-.login-container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    text-align: center;
-}
-.login-container h2 {
-    margin-bottom: 30px;
-    font-size: 24px;
-    color: #333;
-}
-.login-container input[type="text"],
-.login-container input[type="password"],
-.login-container input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-.login-container button {
-    width: 100%;
-    padding: 12px;
-    background-color: #3897f0;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-.login-container button:hover {
-    background-color: #318ce7;
-}
-.login-container .signup-link {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #777;
-}
-.login-container .forgot-password {
-    margin-top: 10px;
-    font-size: 14px;
-}
-.login-container .forgot-password a {
-    color: #3897f0;
-    text-decoration: none;
-}
-.login-container .forgot-password a:hover {
-    text-decoration: underline;
-}
-.login-container .signup-link a {
-    color: #3897f0;
-    text-decoration: none;
-}
-.login-container .signup-link a:hover {
-    text-decoration: underline;
-}
-#forgot-password-form {
-    display: none;
-}
-#forgot-password-form h2 {
-    margin-bottom: 30px;
-    font-size: 24px;
-    color: #333;
-}
-#forgot-password-form input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-#forgot-password-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #3897f0;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-#forgot-password-form button:hover {
-    background-color: #318ce7;
-}
-#forgot-password-form .signup-link {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #777;
-}
-#forgot-password-form .signup-link a {
-    color: #3897f0;
-    text-decoration: none;
-}
-#forgot-password-form .signup-link a:hover {
-    text-decoration: underline;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
 }
 
 .otp-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+  background-color: var(--bg-secondary);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
-.otp-container h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+h2 {
+  margin-bottom: 30px;
 }
 
 .otp-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 5px;
+  margin-bottom: 25px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+}
+
+.otp-input:focus {
+  outline: none;
+  border-color: var(--accent);
 }
 
 .verify-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #3897f0;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .verify-button:hover {
-    background-color: #318ce7;
+  background-color: var(--accent-hover);
 }
