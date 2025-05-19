@@ -11,6 +11,8 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     console.log('Logout successful:', data);
 
     localStorage.removeItem('token');
+    localStorage.removeItem('userId')
+    localStorage.removeItem('tenant')
     window.location.href = '../Index.html'; 
   })
   .catch(err => {

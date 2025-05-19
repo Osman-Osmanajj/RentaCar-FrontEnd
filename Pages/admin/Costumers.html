@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="../../JS/admin/sideBar.js"></script>
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <div class="main">
+   <h2>Customers</h2>
+<div id="card-container" style="display: flex; gap: 1rem; flex-wrap: wrap;"></div>
+<!-- Booking History Modal -->
+<div id="bookingModal" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+">
+  <div style="
+    padding: 2rem;
+    border-radius: 10px;
+    max-height: 80%;
+    overflow-y: auto;
+    width: 500px;
+    position: relative;
+  ">
+    <button onclick="closeModal()" style="
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: transparent;
+      font-size: 1.2rem;
+      cursor: pointer;
+    ">&times;</button>
+
+    <h3>Booking History</h3>
+    <div id="bookingHistoryContent">
+      <p>Loading...</p>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  let customerData = [];
+  let bookingData = [];
+
+  async function fetchBookings() {
+    try {
+      const res = await fetch('http://localhost:3000/api/booking/costumers', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'X-Tenant-ID': localStorage.getItem('tenant') || ''
+        }
+      });
+
+      if (!res.ok) throw new Error('Failed to fetch data');
+
+      const { customers, bookings } = await res.json();
+      customerData = customers;
+      bookingData = bookings;
+      console.log(customers, bookings);
+
+      const container = document.getElementById("card-container");
+      container.innerHTML = '';
+
+      customers.forEach((customer) => {
+        const cardWrapper = document.createElement("div");
+
+        const button = document.createElement("button");
+        button.style = `all: unset; cursor: pointer;`;
+        
+        const card = document.createElement("div");
+        card.style = `
+                border: 1px solid #444;
+                padding: 1rem;
+                border-radius: 8px;
+                width: 250px;
+                box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+                background: #111;
+                color: white;
+                `;
+
+        card.innerHTML = `
+          <p><strong>Name:</strong> ${customer.name}</p>
+          <p><strong>Email:</strong> ${customer.email}</p>
+        `;
+
+        const bookingList = document.createElement("div");
+        bookingList.style.display = "none";
+        bookingList.style.marginTop = "1rem";
+
+        // Filter their bookings
+        const theirBookings = bookingData.filter(
+          (b) => b.User.email === customer.email
+        );
+
+        if (theirBookings.length === 0) {
+          bookingList.innerHTML = "<p>No completed bookings.</p>";
+        } else {
+          theirBookings.forEach((booking) => {
+            const bookingItem = document.createElement("div");
+            bookingItem.style = `
+              border-top: 1px solid #ddd;
+              padding: 0.5rem 0;
+              font-size: 0.9rem;
+            `;
+            bookingItem.innerHTML = `
+              <p><strong>Start:</strong> ${booking.start_date}</p>
+              <p><strong>End:</strong> ${booking.end_date}</p>
+              <p><strong>Total:</strong> €${booking.total_price}</p>
+              <p><strong>Status:</strong> ${booking.status}</p>
+            `;
+            bookingList.appendChild(bookingItem);
+          });
+        }
+
+        // Toggle bookings display
+        button.addEventListener("click", () => {
+          bookingList.style.display = bookingList.style.display === "none" ? "block" : "none";
+        });
+
+        button.appendChild(card);
+        cardWrapper.appendChild(button);
+        cardWrapper.appendChild(bookingList);
+        container.appendChild(cardWrapper);
+      });
+    } catch (err) {
+      console.error(err);
+      document.getElementById("card-container").innerHTML = "<p>Failed to load bookings.</p>";
+    }
+  }
+
+  fetchBookings();
+</script>
+
+
+</body>
+</html>
