@@ -14,68 +14,11 @@
         <h1>Available Cars</h1>
       </div>
       <div class="car-grid" id="carsGrid">
-        <!-- cars will be injected here -->
       </div>
     </div>
   </main>
 
-  <script type="module">
-    import { api } from '../JS/api.js';
-
-    const grid = document.getElementById('carsGrid');
-
-    (async () => {
-      try {
-        // 1) Load all cars (sends cookies + tenant header + auto-refresh)
-        const cars = await api('/car/all');
-
-        // 2) Load all images
-        const images = await api('/carimage/all');
-        const imgMap = images.reduce((map, img) => {
-          if (!map[img.car_id]) map[img.car_id] = [];
-          map[img.car_id].push(img.image_url);
-          return map;
-        }, {});
-
-        // 3) Clear grid
-        grid.innerHTML = '';
-
-        // 4) If no cars
-        if (!cars.length) {
-          grid.innerHTML = '<p>No cars available.</p>';
-          return;
-        }
-
-        // 5) Render
-        cars.forEach(car => {
-          const url = imgMap[car.id]?.[0]
-            || 'https://via.placeholder.com/300x200?text=No+Image';
-          const card = document.createElement('div');
-          card.className = 'car-card';
-          card.innerHTML = `
-            <div class="car-image">
-              <img src="${url}" alt="${car.make} ${car.model}" />
-            </div>
-            <div class="car-info">
-              <h2>${car.make} ${car.model}</h2>
-              <div class="car-details">
-                <span><i class="fas fa-tag"></i> ${car.car_type?.name || 'N/A'}</span>
-                <span><i class="fas fa-gas-pump"></i> ${car.status}</span>
-                <span class="price">$${car.total_price || '–'}/day</span>
-              </div>
-            </div>
-          `;
-          card.addEventListener('click', () => {
-            window.location.href = `MyBooking.html?car=${car.id}`;
-          });
-          grid.appendChild(card);
-        });
-      } catch (err) {
-        console.error(err);
-        grid.innerHTML = `<p class="error">Error loading cars: ${err.message}</p>`;
-      }
-    })();
-  </script>
+  <script type="module" src="../JS/cars.js"></script>
   <script src="../JS/logout.js"></script>
   <script src="../JS/admin/checkCustomer.js"></script>
 </body>
