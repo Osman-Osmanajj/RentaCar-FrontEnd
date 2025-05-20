@@ -88,3 +88,64 @@ document
       alert('Something went wrong during login.');
     }
   });
+
+  document
+  .getElementById('register-form-element')
+  .addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const name     = document.getElementById('register-name').value.trim();
+      const email    = document.getElementById('register-email').value.trim();
+      const password = document.getElementById('register-password').value;
+
+      const response = await fetch('http://localhost:3000/api/user/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.message || 'Registration failed');
+        return;
+      }
+
+      const result = await response.json();
+
+      alert('Registration successful!');
+
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Something went wrong during registration.');
+    }
+
+    try {
+      const email    = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      
+      const response = await fetch('http://localhost:3000/api/user/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.message || 'Registration failed');
+        return;
+      }
+
+      const result = await response.json();
+
+    
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Something went wrong during login.');
+    }
+  });
+
+  

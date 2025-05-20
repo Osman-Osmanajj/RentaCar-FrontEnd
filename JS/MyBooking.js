@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
       const params = new URLSearchParams(location.search);
-      const carId    = params.get('carId');
-      const tenantId = params.get('tenantId');
-      const userId   = params.get('userId');
+      const carId    = params.get('car');
+      const tenantId = localStorage.getItem('tenant');
+      const userId   = localStorage.getItem('userId');
 
       const imageContainer = document.getElementById('carImageContainer');
       const infoContainer  = document.getElementById('carInfoContainer');
@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       try {
         const res = await fetch(`http://localhost:3000/api/car/${carId}`, {
+         credentials: 'include',
+          method: 'GET',
           headers: { 'X-Tenant-ID': tenantId }
         });
         if (!res.ok) throw new Error(res.statusText);
