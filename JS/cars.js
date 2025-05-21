@@ -2,12 +2,16 @@ import { api, setTenant } from './api.js';
 
 const grid = document.getElementById('carsGrid');
 const locationSelect = document.createElement('select');
-locationSelect.id = 'pickup-location';
-locationSelect.style = 'margin-bottom:1.5rem;display:block;';
 const locationLabel = document.createElement('label');
-locationLabel.htmlFor = 'pickup-location';
-locationLabel.style.fontWeight = 'bold';
+locationLabel.setAttribute('for', 'pickup-location');
+locationLabel.className = "pickup-location-label";
+locationSelect.className = "pickup-location-select";
+
 locationLabel.textContent = 'Pickup Location:';
+
+locationSelect.id = 'pickup-location';
+locationSelect.className = "pickup-location-select";
+
 
 const mainContainer = document.querySelector('.container .page-header');
 mainContainer.insertAdjacentElement('afterend', locationLabel);
@@ -77,7 +81,7 @@ function renderCars(cars, imgMap) {
       </div>
     `;
     card.addEventListener('click', () => {
-      window.location.href = `MyBooking.html?car=${car.id}`;
+      window.location.href = `booking.html?car=${car.id}`;
     });
     grid.appendChild(card);
   });
