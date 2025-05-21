@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - DriveEasy Car Rental</title>
     <link rel="stylesheet" href="../Style/contactUs.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("DBS4tuiKKboWu9rBE"); // Replace with your EmailJS public key
+  })();
+</script>
 </head>
 <body>
     <!-- Header -->
@@ -19,6 +25,7 @@
                     <li><a href="locations.html">Locations</a></li>
                     <li><a href="AboutUs.html">About Us</a></li>
                     <li><a href="contactUs.html" class="active">Contact</a></li>
+                    <li><a href="mybookings.html">My Bookings</a></li>
                     <li>
                         <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
                     </li>
@@ -33,33 +40,12 @@
     <main>
         <div class="page-container">
             <div class="contact-container">
-                <h2>Contact Us</h2>
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name">
-                        <small class="error" id="nameError"></small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email">
-                        <small class="error" id="emailError"></small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">Phone <span>(Optional)</span></label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message"></textarea>
-                        <small class="error" id="messageError"></small>
-                    </div>
-
-                    <button type="submit">Send Message</button>
-                    <p id="successMessage" class="success"></p>
+                    <h2>Contact Us</h2>
+                    <form id="contact-form">
+                    <input type="text" name="from_name" placeholder="Your Name" required />
+                    <input type="email" name="from_email" placeholder="Your Email" required />
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send</button>
                 </form>
             </div>
         </div>
@@ -129,5 +115,18 @@
     </script>
     <script src="../JS/logout.js"></script>
     <script src="../JS/admin/checkCustomer.js"></script>
+    <script>
+document.getElementById("contact-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  emailjs.sendForm("service_380f3qi"
+, "template_s64m6os", this)
+    .then(function() {
+      alert("Message sent successfully!");
+    }, function(error) {
+      alert("Failed to send message. Error: " + JSON.stringify(error));
+    });
+});
+</script>
 </body>
 </html>
