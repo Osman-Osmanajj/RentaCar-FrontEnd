@@ -181,3 +181,26 @@ tr:hover {
     grid-template-columns: 1fr;
   }
 }
+.logout-btn {
+  background-color: #e53935;    /* Vivid Red */
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.logout-btn:hover {
+  background-color: #b71c1c;    /* Darker/Blackish Red */
+}
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+
+}

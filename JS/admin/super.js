@@ -1,5 +1,6 @@
 import { api } from '../api.js';
 
+// Tenant form elements
 const tenantForm       = document.getElementById('tenant-form');
 const saveTenantBtn    = document.getElementById('save-tenant-btn');
 const cancelTenantBtn  = document.getElementById('cancel-tenant-btn');
@@ -11,8 +12,44 @@ const tAddress         = document.getElementById('tenant-address');
 const tCity            = document.getElementById('tenant-city');
 const tCountry         = document.getElementById('tenant-country');
 
-async function loadTenants() {
+// Cache tenants globally for reuse in users table
+let tenantsCache = [];
+
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      fetch('http://localhost:3000/api/auth/logout', { 
+        method: 'POST',
+        credentials: 'include', 
+        headers: {
+          'Content-Type': 'application/json'
+        }
+  })
+  .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+  .then(data => {
+    console.log('Logout successful:', data);
+    
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId')
+    localStorage.removeItem('tenant_id')
+    window.location.href = '../../Index.html'; 
+  })
+  .catch(err => {
+    console.error('Logout failed:', err);
+    localStorage.removeItem('token');
+    window.location.href = '../../Index.html';
+  });
+});
+
+// Fetch and cache tenants (for both tenants table and users tenant dropdown)
+async function fetchTenants() {
   const { tenants } = await api('/super/tenants');
+  tenantsCache = tenants;
+}
+
+// Load tenants for tenants table (admin only)
+async function loadTenants() {
+  await fetchTenants();
+  const tenants = tenantsCache;
   const tbody = document.querySelector('#tenants-table tbody');
   tbody.innerHTML = '';
   tenants.forEach(t => {
@@ -50,7 +87,7 @@ async function loadTenants() {
   tbody.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', async () => {
       if (!confirm('Delete this tenant?')) return;
-        await api(`/tenants/tenants/${btn.dataset.id}`, { method: 'DELETE' });
+      await api(`/tenants/tenants/${btn.dataset.id}`, { method: 'DELETE' });
       loadTenants();
     });
   });
@@ -85,12 +122,21 @@ tenantForm.addEventListener('submit', async e => {
   loadTenants();
 });
 
-// Global Users
+// --------- GLOBAL USERS TABLE WITH TENANT NAME DROPDOWN -------------
+
 async function loadAllUsers() {
+  // Make sure tenantsCache is filled
+  if (!tenantsCache.length) await fetchTenants();
+
   const { users } = await api('/super/users');
   const tbody = document.querySelector('#all-users-table tbody');
   tbody.innerHTML = '';
   users.forEach(u => {
+    // Tenant dropdown options: select current
+    const tenantOptions = tenantsCache.map(t =>
+      `<option value="${t.id}" ${t.id === u.tenant_id ? 'selected' : ''}>${t.name}</option>`
+    ).join('');
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${u.id}</td>
@@ -103,21 +149,36 @@ async function loadAllUsers() {
           <option value="Admin">Admin</option>
         </select>
       </td>
-      <td>${u.tenant_id}</td>
+      <td>
+        <select data-id="${u.id}" class="tenant-select">
+          <option value="null">None</option>
+          ${tenantOptions}
+        </select>
+      </td>
       <td>
         <button class="button-small btn-delete-user" data-id="${u.id}">Delete</button>
       </td>`;
     tbody.appendChild(tr);
   });
 
-  // set role selects, handle changes
+  // Set role selects, handle changes
   tbody.querySelectorAll('.role-select').forEach(sel => {
-    sel.value = users.find(u=>u.id==sel.dataset.id).role;
+    sel.value = users.find(u => u.id == sel.dataset.id).role;
     sel.addEventListener('change', async () => {
       await api(`/user/users/${sel.dataset.id}`, { method: 'PATCH', body: { role: sel.value } });
       loadAllUsers();
     });
   });
+
+  // Set tenant selects, handle changes
+  tbody.querySelectorAll('.tenant-select').forEach(sel => {
+    sel.addEventListener('change', async () => {
+      await api(`/user/users/${sel.dataset.id}`, { method: 'PATCH', body: { tenant_id: Number(sel.value) } });
+      loadAllUsers();
+    });
+  });
+
+  // Delete user
   tbody.querySelectorAll('.btn-delete-user').forEach(btn => {
     btn.addEventListener('click', async () => {
       if (!confirm('Delete this user?')) return;
@@ -127,7 +188,8 @@ async function loadAllUsers() {
   });
 }
 
-// All Bookings
+// ------------ ALL BOOKINGS TABLE (unchanged) ------------------------
+
 async function loadAllBookings() {
   const { bookings } = await api('/super/bookings');
   const tbody = document.querySelector('#all-bookings-table tbody');
@@ -146,7 +208,10 @@ async function loadAllBookings() {
   });
 }
 
-// initial load
+// ------------------ INITIAL LOAD ------------------
+
 loadTenants();
-loadAllUsers();
-loadAllBookings();
+fetchTenants().then(() => {
+  loadAllUsers();
+  loadAllBookings();
+});

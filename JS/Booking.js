@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         if (!res.ok) throw new Error(res.statusText);
         const car = await res.json();
+        console.log(car);
 
         const imgUrl = (car.CarImages && car.CarImages[0]?.image_url)
           || 'https://via.placeholder.com/600x250?text=No+Image';
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <p><i class="fas fa-calendar-alt"></i> Year: ${car.year}</p>
           <p><i class="fas fa-id-card"></i> Plate: ${car.license_plate}</p>
           <p><i class="fas fa-flag"></i> Status: ${car.status}</p>
-          <p><i class="fas fa-car"></i> Type: ${car.CarType?.name || 'N/A'}</p>
+          <p><i class="fas fa-car"></i> Price per day: ${car.price}</p>
         `;
       } catch (err) {
         msgDiv.textContent = 'Failed to load car details.';
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (!res.ok) throw new Error(result.message || res.statusText);
           msgDiv.style.color = 'green';
           msgDiv.textContent = 'Booking confirmed!';
+          window.location.href = "./mybookings.html";
         } catch (err) {
           msgDiv.style.color = 'red';
           msgDiv.textContent = err.message || 'Booking failed.';

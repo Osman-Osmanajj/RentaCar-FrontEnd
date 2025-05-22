@@ -57,6 +57,7 @@ document.getElementById('login-form-element').addEventListener('submit', async e
 
     localStorage.setItem('userId', result.user.id);
     localStorage.setItem('token', result.accessToken);
+    localStorage.setItem('tenant_id', result.user.tenant_id);
 
     if (result.user.role === 'Manager') {
       alert('Welcome Manager');
