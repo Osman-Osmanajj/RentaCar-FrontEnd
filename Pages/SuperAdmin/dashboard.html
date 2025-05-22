@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Super Admin</title>
   <link rel="stylesheet" href="../../Style/admin/super.css" />
-  <script type="module" src="../../JS/admin/super.js" defer></script>
+  
 </head>
 <body>
   <aside>
@@ -18,8 +18,13 @@
     </nav>
   </aside>
 
+  
+ 
+
   <div class="main">
-    <header><h1>Super Admin Dashboard</h1></header>
+    <header><h1>Super Admin Dashboard</h1>
+    <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
+    </header>
 
     <!-- Tenants -->
     <section id="tenants">
@@ -73,5 +78,7 @@
     </section>
   </div>
   <script src="../../JS/admin/CheckSuperAdmin.js"></script>
+  <script type="module" src="../../JS/admin/super.js" defer></script>
+  
 </body>
 </html>

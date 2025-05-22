@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <script src="../../JS/admin/sideBar.js"></script>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div id="headerContainer"></div>
+<div class="main">
+    <div id="card-container">
+    <div id="invoice-container"></div>
+    </div>
+    </div>
+<script>
+
+async function fetchInvoice() {
+  const res = await fetch(`http://localhost:3000/api/maintenance/all`
+    , {
+      method: 'GET',
+      credentials: 'include', 
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Tenant-ID': localStorage.getItem('tenant_id'), 
+      }
+    }
+  );
+  const data = await res.json();
+
+  // Generate invoice HTML
+  
+  console.log(data);
+  data.records.forEach(record => {
+    document.getElementById('invoice-container').innerHTML += `
+      <div class="invoice-card" style="background-color:#101012">
+        <h2>Maintenance Invoice #${record.id}</h2>
+        <p><strong>Car:</strong> ${record.Car.make} ${record.Car.model}</p>
+        <p><strong>Service Type:</strong> ${record.service_type}</p>
+        <p><strong>Date:</strong> ${record.service_date}</p>
+        <p><strong>Description:</strong> ${record.description}</p>
+        <p><strong>Cost:</strong> €${record.cost}</p>
+      </div>
+    `;
+  });
+}
+fetchInvoice(); 
+</script>
+
+<style>
+.invoice-card {
+  max-width: 400px;
+  margin: 32px auto;
+  padding: 32px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+</style>
+
+</body>
+</html>

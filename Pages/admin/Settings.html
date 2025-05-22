@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div id="headerContainer"></div>
+    <div class="main">
+        <header>
+            <h1>Settings</h1>
+            <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
+        </header>
+
+        <section id="settings">
+            <h2>Settings</h2>
+            <form id="settings-form">
+                <label for="OldPassword">Password</label>
+                <input type="text" id="OldPassword" name="OldPassword" required>
+
+                <label for="Password">New Password</label>
+                <input type="text" id="Password" name="Password" required>
+
+                <label for="ConfinrmPassword">Confirm Password</label>
+                <input type="text" id="ConfinrmPassword" name="ConfinrmPassword" required>
+                
+
+                <button type="submit" id="submit">Save Settings</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="../../JS/admin/checkAdmin.js"></script>
+    <script src="../../JS/admin/sideBar.js"></script>
+    <script>
+        const userid = localStorage.getItem('userId');
+
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            fetch('http://localhost:3000/api/auth/logout', { 
+                method: 'POST',
+                credentials: 'include', 
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+            .then(data => {
+                console.log('Logout successful:', data);
+                
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId')
+                localStorage.removeItem('tenant')
+                window.location.href = '../../Index.html'; 
+            })
+            .catch(err => {
+                console.error('Logout failed:', err);
+                localStorage.removeItem('token');
+                window.location.href = '../../Index.html';
+            });
+            });
+
+       
+
+        document.getElementById('submit').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const oldPassword = document.getElementById('OldPassword').value;
+            const newPassword = document.getElementById('Password').value;
+            const confirmPassword = document.getElementById('ConfinrmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match");
+                return;
+            }
+
+
+             try {
+             const response  = await fetch(`http://localhost:3000/api/user/users/${userid}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+             });
+            const data = await response.json();
+            console.log(data);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/user/users/${userid}`, {
+                    method: 'PATCH',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        oldpassword: oldPassword,
+                        newPassword: newPassword,
+                    })
+                });
+                const data = await response.json();
+                console.log(data);
+               alert("Password updated successfully");
+            } catch (error) {
+                console.error('Error updating user data:', error);
+            }
+        });
+
+    </script>
+
+</body>
+</html>
