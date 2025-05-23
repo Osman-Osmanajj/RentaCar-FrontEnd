@@ -114,3 +114,35 @@ document.getElementById('register-form-element').addEventListener('submit', asyn
     alert('Something went wrong during registration.');
   }
 });
+
+// ——— Forgot Password Handler ———
+document
+  .getElementById('forgot-password-form-element')
+  .addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('forgot-email').value.trim();
+    if (!email) {
+      alert('Please enter your email address.');
+      return;
+    }
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      if (res.ok) {
+        alert('If that email exists, you’ll receive a reset link shortly.');
+        // clear and go back to login view
+        document.getElementById('forgot-email').value = '';
+        hide(forgotContainer);
+        show(loginContainer);
+      } else {
+        const { error } = await res.json();
+        alert(error || 'Could not send reset link.');
+      }
+    } catch (err) {
+      console.error('Forgot password error:', err);
+      alert('Network error. Please try again later.');
+    }
+  });

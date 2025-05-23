@@ -1,64 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports</title>
-    <script src="../../JS/admin/sideBar.js"></script>
-    <link rel="stylesheet" href="admin.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reports</title>
+  <script src="../../JS/admin/sideBar.js"></script>
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-<div id="headerContainer"></div>
-<div class="main">
-    <div id="card-container">
-    <div id="invoice-container"></div>
+  <div id="headerContainer"></div>
+  <div class="main">
+    <div id="create-report-container">
+      <h2>Create Maintenance Report</h2>
+      <form id="create-report-form">
+        <input type="number" name="car_id"        placeholder="Car ID"        required>
+        <input type="text"   name="service_type" placeholder="Service Type"  required>
+        <input type="date"   name="service_date"  required>
+        <input type="text"   name="description"  placeholder="Description"   required>
+        <input type="number" name="cost"         placeholder="Cost (€)" step="0.01" required>
+        <button type="submit">Create Report</button>
+      </form>
     </div>
-    </div>
-<script>
 
-async function fetchInvoice() {
-  const res = await fetch(`http://localhost:3000/api/maintenance/all`
-    , {
+    <div id="card-container">
+      <div id="invoice-container"></div>
+    </div>
+  </div>
+
+  <script>
+  const API_BASE   = 'http://localhost:3000/api/maintenance';
+  const CREATE_URL = `${API_BASE}/create`;
+
+  async function fetchInvoice() {
+    const res = await fetch(`${API_BASE}/all`, {
       method: 'GET',
-      credentials: 'include', 
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'X-Tenant-ID': localStorage.getItem('tenant_id'), 
+        'X-Tenant-ID': localStorage.getItem('tenant_id'),
       }
-    }
-  );
-  const data = await res.json();
+    });
+    const data = await res.json();
+    const container = document.getElementById('invoice-container');
+    container.innerHTML = '';
+    data.records.forEach(r => appendInvoiceCard(r));
+  }
 
-  // Generate invoice HTML
-  
-  console.log(data);
-  data.records.forEach(record => {
-    document.getElementById('invoice-container').innerHTML += `
-      <div class="invoice-card" style="background-color:#101012">
-        <h2>Maintenance Invoice #${record.id}</h2>
-        <p><strong>Car:</strong> ${record.Car.make} ${record.Car.model}</p>
-        <p><strong>Service Type:</strong> ${record.service_type}</p>
-        <p><strong>Date:</strong> ${record.service_date}</p>
-        <p><strong>Description:</strong> ${record.description}</p>
-        <p><strong>Cost:</strong> €${record.cost}</p>
-      </div>
+  function appendInvoiceCard(r) {
+    const card = document.createElement('div');
+    card.className = 'invoice-card';
+    card.innerHTML = `
+      <h2>Invoice #${r.id}</h2>
+      <p><strong>Car:</strong> ${r.Car.make} ${r.Car.model}</p>
+      <p><strong>Service:</strong> ${r.service_type}</p>
+      <p><strong>Date:</strong> ${r.service_date}</p>
+      <p><strong>Description:</strong> ${r.description}</p>
+      <p><strong>Cost:</strong> €${r.cost}</p>
+      <button class="delete-btn">Delete</button>
     `;
-  });
-}
-fetchInvoice(); 
+    card.querySelector('.delete-btn')
+        .addEventListener('click', () => deleteInvoice(r.id));
+    document.getElementById('invoice-container').append(card);
+  }
+
+  async function deleteInvoice(id) {
+    if (!confirm('Really delete this report?')) return;
+    const res = await fetch(`${API_BASE}/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'X-Tenant-ID': localStorage.getItem('tenant_id') }
+    });
+    if (res.ok) fetchInvoice();
+    else alert('Delete failed');
+  }
+
+  document.getElementById('create-report-form')
+    .addEventListener('submit', async e => {
+      e.preventDefault();
+      const f = e.target;
+      const payload = {
+        car_id:       +f.car_id.value,
+        service_type: f.service_type.value,
+        service_date: f.service_date.value,
+        description:  f.description.value,
+        cost:         parseFloat(f.cost.value),
+      };
+      const res = await fetch(CREATE_URL, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Tenant-ID': localStorage.getItem('tenant_id'),
+        },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        f.reset();
+        fetchInvoice();
+      } else {
+        alert('Failed to create report');
+      }
+    });
+
+  // initial load
+  fetchInvoice();
 </script>
-
-<style>
-.invoice-card {
-  max-width: 400px;
-  margin: 32px auto;
-  padding: 32px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-}
-</style>
-
 </body>
 </html>

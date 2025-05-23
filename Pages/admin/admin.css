@@ -246,3 +246,94 @@ tr:hover {
   background: #c4022b;
   box-shadow: 0 3px 18px rgba(255,65,85,0.14);
 }
+
+/* ——— Create Report Form ——— */
+#create-report-container {
+  max-width: 600px;
+  margin: 32px auto;
+  padding: 24px;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+#create-report-container h2 {
+  margin-bottom: 16px;
+  color: #fff;
+  text-align: center;
+  font-size: 1.4rem;
+}
+#create-report-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+#create-report-form input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #303236;
+  background: #232528;
+  color: #ececec;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+#create-report-form input:focus {
+  border-color: #ff4155;
+  outline: none;
+}
+#create-report-form button[type="submit"] {
+  grid-column: span 2;
+  padding: 12px;
+  background: #ff4155;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(255,65,85,0.08);
+}
+#create-report-form button[type="submit"]:hover {
+  background: #c4022b;
+  box-shadow: 0 3px 18px rgba(255,65,85,0.14);
+}
+
+/* ——— Dark Invoice Cards ——— */
+.invoice-card {
+  position: relative;
+  max-width: 400px;
+  margin: 1rem;
+  padding: 32px;
+  background-color: #101012;
+  color: #e5e7eb;
+  border: 1px solid #2e2e2e;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+}
+.invoice-card h2,
+.invoice-card p {
+  color: #e5e7eb;
+}
+/* delete button on card */
+.invoice-card .delete-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.invoice-card .delete-btn:hover {
+  background: #a71d2a;
+}
+
+/* ensure invoice-container layout */
+#invoice-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
