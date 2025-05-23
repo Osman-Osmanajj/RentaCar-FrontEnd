@@ -40,6 +40,11 @@ document.getElementById('login-form-element').addEventListener('submit', async e
     return;
   }
 
+  if (!validator.isEmail(email)) {
+    alert('Please enter a valid email address!');
+    return;
+  }
+
   try {
     const response = await fetch('http://localhost:3000/api/auth/login', {
       method: 'POST',
@@ -89,6 +94,19 @@ document.getElementById('register-form-element').addEventListener('submit', asyn
     alert("All fields are required!");
     return;
   }
+
+  if (!validator.isEmail(email)) {
+    alert("Invalid email format!");
+    return;
+  }
+
+  if (!validator.isStrongPassword(password, {
+    minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1
+  })) {
+    alert("Password must be at least 8 characters long and include lowercase, uppercase, number, and symbol.");
+    return;
+  }
+
   if (password !== confirmPassword) {
     alert("Passwords do not match!");
     return;
@@ -115,7 +133,7 @@ document.getElementById('register-form-element').addEventListener('submit', asyn
   }
 });
 
-// ——— Forgot Password Handler ———
+
 document
   .getElementById('forgot-password-form-element')
   .addEventListener('submit', async e => {
@@ -133,7 +151,6 @@ document
       });
       if (res.ok) {
         alert('If that email exists, you’ll receive a reset link shortly.');
-        // clear and go back to login view
         document.getElementById('forgot-email').value = '';
         hide(forgotContainer);
         show(loginContainer);

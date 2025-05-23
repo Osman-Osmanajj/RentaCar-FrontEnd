@@ -1,5 +1,4 @@
-// /JS/settings.js
-const BASE_URL = 'http://localhost:3000/api/user';  // your correct mount
+const BASE_URL = 'http://localhost:3000/api/user';
 
 async function api(endpoint, method = 'GET', body) {
   const token    = localStorage.getItem('token');
@@ -8,8 +7,8 @@ async function api(endpoint, method = 'GET', body) {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...(token    ? { Authorization: `Bearer ${token}`    } : {}),
-      ...(tenantId ? { 'X-Tenant-ID':   tenantId            } : {})
+      ...(token    ? { Authorization: `Bearer ${token}` } : {}),
+      ...(tenantId ? { 'X-Tenant-ID': tenantId } : {})
     },
     credentials: 'include'
   };
@@ -18,7 +17,6 @@ async function api(endpoint, method = 'GET', body) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // logout handler
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const userId = localStorage.getItem('userId');
   if (!userId) return window.location.href = 'login.html';
 
-  // form elements
   const nameInput       = document.getElementById('name');
   const emailInput      = document.getElementById('email');
   const oldPwdInput     = document.getElementById('oldpassword');
@@ -44,38 +41,60 @@ document.addEventListener('DOMContentLoaded', async () => {
   const confirmPwdInput = document.getElementById('confirmPassword');
   const form            = document.getElementById('settingsForm');
 
-  // load existing data
   const resp = await api(`/users/${userId}`, 'GET');
   if (!resp.ok) {
     alert('Could not load profile. Please log in again.');
     return window.location.href = 'login.html';
   }
+
   const { user } = await resp.json();
   nameInput.value  = user.name;
   emailInput.value = user.email;
 
-  // handle submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // password logic
-    if (newPwdInput.value || confirmPwdInput.value) {
-      if (newPwdInput.value !== confirmPwdInput.value) {
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const oldPassword = oldPwdInput.value.trim();
+    const newPassword = newPwdInput.value.trim();
+    const confirmPassword = confirmPwdInput.value.trim();
+
+    // Validations
+    if (!name || !email) {
+      return alert('Name and email are required.');
+    }
+
+    if (!validator.isEmail(email)) {
+      return alert('Please enter a valid email address.');
+    }
+
+    if (newPassword || confirmPassword) {
+      if (newPassword !== confirmPassword) {
         return alert('New passwords do not match.');
       }
-      if (!oldPwdInput.value) {
+
+      if (!oldPassword) {
         return alert('Please enter your current password.');
+      }
+
+      if (!validator.isStrongPassword(newPassword, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1
+      })) {
+        return alert('New password must be at least 8 characters long and include uppercase, lowercase, number, and symbol.');
       }
     }
 
-    // build update payload
-    const updateData = { name: nameInput.value };
-    if (oldPwdInput.value && newPwdInput.value) {
-      updateData.oldpassword = oldPwdInput.value;
-      updateData.newPassword = newPwdInput.value;
+    const updateData = { name, email };
+    if (oldPassword && newPassword) {
+      updateData.oldpassword = oldPassword;
+      updateData.newPassword = newPassword;
     }
 
-    // send PATCH
     const updateResp = await api(`/users/${userId}`, 'PATCH', updateData);
     if (!updateResp.ok) {
       const text = await updateResp.text();
@@ -89,8 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const result = await updateResp.json();
-    alert(result.message);
-    // clear pwd fields
+    alert(result.message || 'Profile updated successfully.');
     oldPwdInput.value = newPwdInput.value = confirmPwdInput.value = '';
   });
 });

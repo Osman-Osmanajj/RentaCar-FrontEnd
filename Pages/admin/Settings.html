@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/validator@13.9.0/validator.min.js"></script>
 </head>
 <body>
     <div id="headerContainer"></div>
@@ -18,13 +19,13 @@
             <h2>Settings</h2>
             <form id="settings-form">
                 <label for="OldPassword">Password</label>
-                <input type="text" id="OldPassword" name="OldPassword" required>
+                <input type="password" id="OldPassword" name="OldPassword" required>
 
                 <label for="Password">New Password</label>
-                <input type="text" id="Password" name="Password" required>
+                <input type="password" id="Password" name="Password" required>
 
                 <label for="ConfinrmPassword">Confirm Password</label>
-                <input type="text" id="ConfinrmPassword" name="ConfinrmPassword" required>
+                <input type="password" id="ConfinrmPassword" name="ConfinrmPassword" required>
                 
 
                 <button type="submit" id="submit">Save Settings</button>
@@ -63,52 +64,75 @@
             });
 
        
+document.getElementById('submit').addEventListener('click', async (e) => {
+    e.preventDefault();
 
-        document.getElementById('submit').addEventListener('click', async (e) => {
-            e.preventDefault();
-            const oldPassword = document.getElementById('OldPassword').value;
-            const newPassword = document.getElementById('Password').value;
-            const confirmPassword = document.getElementById('ConfinrmPassword').value;
+    const oldPassword = document.getElementById('OldPassword').value.trim();
+    const newPassword = document.getElementById('Password').value.trim();
+    const confirmPassword = document.getElementById('ConfinrmPassword').value.trim();
 
-            if (newPassword !== confirmPassword) {
-                alert("Passwords do not match");
-                return;
-            }
+    if (!oldPassword || !newPassword || !confirmPassword) {
+        alert("All fields are required!");
+        return;
+    }
 
+    if (newPassword !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
 
-             try {
-             const response  = await fetch(`http://localhost:3000/api/user/users/${userid}`, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-             });
-            const data = await response.json();
-            console.log(data);
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                }
+    if (!validator.isStrongPassword(newPassword, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1
+    })) {
+        alert("New password must be at least 8 characters long and include uppercase, lowercase, number, and symbol.");
+        return;
+    }
 
-            try {
-                const response = await fetch(`http://localhost:3000/api/user/users/${userid}`, {
-                    method: 'PATCH',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        oldpassword: oldPassword,
-                        newPassword: newPassword,
-                    })
-                });
-                const data = await response.json();
-                console.log(data);
-               alert("Password updated successfully");
-            } catch (error) {
-                console.error('Error updating user data:', error);
+    try {
+        const response = await fetch(`http://localhost:3000/api/user/users/${userid}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
             }
         });
+        const data = await response.json();
+        console.log('Fetched user:', data);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/user/users/${userid}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                oldpassword: oldPassword,
+                newPassword: newPassword,
+            })
+        });
+        const result = await response.json();
+        console.log('Password update result:', result);
+
+        if (!response.ok) {
+            alert(result.message || 'Failed to update password.');
+            return;
+        }
+
+        alert("Password updated successfully");
+    } catch (error) {
+        console.error('Error updating password:', error);
+        alert('An error occurred while updating the password.');
+    }
+});
+
 
     </script>
 

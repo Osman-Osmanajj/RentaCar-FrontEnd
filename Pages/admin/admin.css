@@ -211,7 +211,7 @@ tr:hover {
   letter-spacing: 0.2px;
 }
 
-#settings-form input[type="text"] {
+#settings-form input[type="password"] {
   padding: 10px 14px;
   border: 1px solid #303236;
   border-radius: 7px;
@@ -222,7 +222,7 @@ tr:hover {
   margin-bottom: 4px;
 }
 
-#settings-form input[type="text"]:focus {
+#settings-form input[type="password"]:focus {
   border: 1.5px solid #ff4155;
   outline: none;
   background: #232528;
