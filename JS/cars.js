@@ -27,7 +27,7 @@ let cars = JSON.parse(localStorage.getItem('searchResults') || 'null');
     tenants.forEach(t => {
       const opt = document.createElement('option');
       opt.value = t.id;
-      opt.textContent = `${t.name} — ${t.address}, ${t.city}`;
+      opt.textContent = `${t.name}`;
       locationSelect.appendChild(opt);
     });
 
@@ -37,9 +37,9 @@ let cars = JSON.parse(localStorage.getItem('searchResults') || 'null');
       setTenant(savedTenant);
       await loadCarsForLocation(savedTenant);
     } else if (tenants.length) {
-       locationSelect.value = tenants[5].id;
-       setTenant(tenants[5].id);
-       await loadCarsForLocation(tenants[5].id);
+       locationSelect.value = tenants[2].id;
+       setTenant(tenants[2].id);
+       await loadCarsForLocation(tenants[2].id);
     }
   } catch (err) {
     grid.innerHTML = `<p class="error">Failed to load locations: ${err.message}</p>`;
