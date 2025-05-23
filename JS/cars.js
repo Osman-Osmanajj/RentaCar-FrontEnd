@@ -12,6 +12,10 @@ locationLabel.textContent = 'Pickup Location:';
 locationSelect.id = 'pickup-location';
 locationSelect.className = "pickup-location-select";
 
+const modal = document.getElementById('reviewModal');
+
+const closeModalReviewBtn = document.getElementById('closeModalReview');
+
 
 const mainContainer = document.querySelector('.container .page-header');
 mainContainer.insertAdjacentElement('afterend', locationLabel);
@@ -77,15 +81,61 @@ function renderCars(cars, imgMap) {
           <span><i class="fas fa-tag"></i> ${car.CarType?.name || 'N/A'}</span>
           <span><i class="fas fa-gas-pump"></i> ${car.status}</span>
           <span class="price">$${car.price || '–'}/day</span>
+          <div class="buttons">
+            <Button class="bookBtn">Book Now</Button>
+            <Button class="reviewBtn">Reviews</Button>
+          </div>
         </div>
       </div>
     `;
-    card.addEventListener('click', () => {
+    const bookBtn = card.querySelector('.bookBtn');
+    bookBtn.addEventListener('click', () => {
       window.location.href = `booking.html?car=${car.id}`;
     });
+    const reviewBtn = card.querySelector('.reviewBtn');
+    reviewBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openReviewModal(car.id);
+    });
+
     grid.appendChild(card);
   });
 }
+
+const openReviewModal = async (carId) => {
+  try {
+    const reviews = await fetch(`http://localhost:3000/api/review/${carId}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-Tenant-ID': localStorage.getItem('tenant_id')
+      }
+    });
+    if (!reviews.ok) throw new Error('Failed to load reviews');
+    const reviewsData = await reviews.json() || [];
+    const reviewModal = document.getElementById('reviewModal'); // Ensure correct modal!
+    const reviewList = reviewModal.querySelector('.review-list');
+    reviewList.innerHTML = '';
+
+    if (!reviewsData.length) {
+      reviewList.innerHTML = '<li>No reviews for this car yet.</li>';
+    } else {
+      reviewsData.forEach(review => {
+        const li = document.createElement('li');
+        for (let i = 0; i < review.rating; i++) {
+          li.textContent += '⭐';
+        }
+        li.textContent += ` ${review.comment}`;
+        reviewList.appendChild(li);
+      });
+    }
+    reviewModal.classList.remove('hidden');
+  } catch (e) {
+   document.getElementById('error').textContent = 'Failed toasdasd load reviews.';
+  }
+};
+
+
 
 async function loadCarsForLocation(tenantId) {
   grid.innerHTML = '<p>Loading cars...</p>';
@@ -116,4 +166,13 @@ async function loadCarsForLocation(tenantId) {
 }
 
 if (cars && Array.isArray(cars)) {
+}
+
+
+closeModalReviewBtn.onclick = () => { modal.classList.add('hidden'); };
+window.onclick = function(event) {
+  if (event.target === modal) {
+    modal.classList.add('hidden');
+    editingBooking = null;
+  }
 }
