@@ -1,0 +1,126 @@
+<!-- settings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DriveEasy Rentals – Account Settings</title>
+  <link rel="stylesheet" href="../Style/home.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="home.html" class="logo">Drive<span>Easy</span></a>
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="cars.html">Cars</a></li>
+          <li><a href="locations.html">Locations</a></li>
+          <li><a href="AboutUs.html">About Us</a></li>
+          <li><a href="contactUs.html">Contact</a></li>
+          <li><a href="mybookings.html">My Bookings</a></li>
+          <li><a href="settings.html" class="active">Settings</a></li>
+          <li>
+            <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
+          </li>
+        </ul>
+      </nav>
+      <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- Settings Form -->
+  <section class="settings">
+    <div class="container">
+      <div class="section-title">
+        <h2>Account Settings</h2>
+        <p>Update your profile and password</p>
+      </div>
+      <form id="settingsForm" class="form">
+        <!-- Name -->
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <!-- Email (readonly) -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            readonly
+            autocomplete="email"
+          />
+        </div>
+
+        <hr />
+
+        <!-- Password Change -->
+        <div class="form-group">
+          <label for="oldpassword">Current Password</label>
+          <input
+            type="password"
+            id="oldpassword"
+            name="oldpassword"
+            placeholder="Leave blank to keep current"
+            autocomplete="current-password"
+          />
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input
+            type="password"
+            id="newPassword"
+            name="newPassword"
+            placeholder="Leave blank to keep current"
+            autocomplete="new-password"
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Leave blank to keep current"
+            autocomplete="new-password"
+          />
+        </div>
+
+        <button type="submit" class="btn">Save Changes</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <!-- … existing footer columns … -->
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 DriveEasy Rentals. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../JS/logout.js" defer></script>
+  <script type="module" src="../JS/settings.js" defer></script>
+</body>
+</html>
