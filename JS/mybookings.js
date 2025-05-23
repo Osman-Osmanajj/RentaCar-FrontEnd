@@ -5,8 +5,15 @@ const modalpayment = document.getElementById('payModal');
 const closeModalBtn = document.getElementById('closeModal');
 const closeModalPaymentBtn = document.getElementById('closeModalPayment');
 const editForm = document.getElementById('editBookingForm');
+const reviewModal = document.getElementById('reviewModal');
+const closeModalReviewBtn = document.getElementById('closeModalReview');
+
+
+
 let bookings = [];
 let editingBooking = null;
+let reviewingBooking = null;
+
 
 // ----------- API CALLS (adjust endpoints as needed) -----------
 async function api(endpoint, method = 'GET', body) {
@@ -18,7 +25,7 @@ async function api(endpoint, method = 'GET', body) {
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(tenantId ? { 'X-Tenant-ID': tenantId } : {}),   // <-- THIS LINE!
+      ...(tenantId ? { 'X-Tenant-ID': tenantId } : {}), 
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
@@ -31,11 +38,12 @@ async function api(endpoint, method = 'GET', body) {
 async function fetchBookings() {
   try {
     // Fetch only this user's bookings
-    const userId = localStorage.getItem('userId');
+     const userId = localStorage.getItem('userId');
+   
     if (!userId) throw new Error("You must be logged in");
     // Example endpoint, adjust as needed
     const bookings = await api(`/booking/my/${userId}`);
-    console.log(bookings);
+
     return bookings;
 
 
@@ -75,18 +83,23 @@ function renderBookings(list) {
           <i class="fas fa-info-circle"></i> ${bk.status}
         </div>
         <div class="booking-actions">
-            <button class="action-btn edit-btn">Edit</button>
-            <button class="action-btn cancel-btn">Cancel</button>
+            ${bk.status === 'Completed' ? '' :  `<button class="action-btn edit-btn">Edit</button>`}
+            ${bk.status === 'Completed' ?  '' : `<button class="action-btn cancel-btn">Cancel</button>`}
             ${bk.status === 'Pending' ? `<button class="action-btn pay-btn">Pay</button>` : ''}
+            ${bk.status === 'Completed' ? `<button class="action-btn review-btn">Review</button>` : ''}
         </div>
       </div>
     `;
     // Add actions
     if (bk.status ){
-      card.querySelector('.edit-btn').onclick = () => openEditModal(bk);
-      card.querySelector('.cancel-btn').onclick = () => cancelBooking(bk);
+      const editbtn = card.querySelector('.edit-btn');
+      if(editbtn) editbtn.onclick = () => openEditModal(bk);
+      const cancelBtn = card.querySelector('.cancel-btn');
+      if (cancelBtn) cancelBtn.onclick = () => cancelBooking(bk);
       const payBtn = card.querySelector('.pay-btn');
       if (payBtn) payBtn.onclick = () => payForBooking(bk);
+      const reviewBtn = card.querySelector('.review-btn');
+      if(reviewBtn) reviewBtn.onclick = () => reviewBooking(bk);
     }
     grid.appendChild(card);
   });
@@ -123,20 +136,41 @@ window.onclick = function(event) {
 editForm.onsubmit = async function(e) {
   e.preventDefault();
   if (!editingBooking) return;
+
   const newStart = editForm.pickupDate.value;
   const newEnd = editForm.dropoffDate.value;
-  if (!newStart || !newEnd) return;
+
+  if (!newStart || !newEnd) {
+    console.log("Both dates are required.");
+    return;
+  }
+
+  const startDate = new Date(newStart);
+  const endDate = new Date(newEnd);
+  const now = new Date();
+  now.setHours(0,0,0,0); 
+
+  if (startDate < now) {
+    alert("Start date must be today or later.");
+    return;
+  }
+
+  if (endDate <= startDate) {
+   alert("End date must be after start date.");
+    return;
+  }
+
   try {
-    await api(`/booking/${editingBooking.id}`, 'PATCH ', {
+    await api(`/booking/${editingBooking.id}`, 'PATCH', {
       start_date: newStart, end_date: newEnd
     });
     modal.classList.add('hidden');
-    // Reload bookings
     loadBookings();
   } catch (e) {
-    alert("Failed to update booking: " + e.message);
+    alert("Car is not available for the selected dates.");
   }
 };
+
 
 // ----------- CANCEL BOOKING -----------
 async function cancelBooking(bk) {
@@ -150,12 +184,11 @@ async function cancelBooking(bk) {
 }
 
 async function payForBooking(bk) {
-  // Simulate payment – in a real app, integrate a payment API!
  
   modalpayment.classList.remove('hidden');
   document.getElementById('amount').innerText = bk.total_price;
 
-paymentform.onsubmit = async function(e) {
+  paymentform.onsubmit = async function(e) {
   e.preventDefault();
   const amount = bk.total_price;
   const payment_method = paymentform.paymentMethod.value;
@@ -178,9 +211,45 @@ paymentform.onsubmit = async function(e) {
 };
 }
 
-// ----------- PAY FOR BOOKING -----------
+// ----------- REVIEW BOOKING -----------
 
+ async function reviewBooking(bk) {
 
+  reviewModal.classList.remove('hidden');
+  const bodyUserId = localStorage.getItem('userId');
+  if (!bodyUserId) {
+    alert("You must be logged in to review.");
+    return;
+  }
+
+  const reviewform = document.getElementById('reviewform');
+  
+
+  reviewform.onsubmit = async function(e) {
+    e.preventDefault();
+    const rating = reviewform.reviewMethod.value;
+    const comment = reviewform.comment.value;
+
+    if (!rating || !comment) {
+      alert("All fields are required.");
+      return;
+    }
+
+    try {
+      await api(`/review/create`, 'POST', { user_id: bodyUserId, rating, comment, car_id: bk.car_id });
+      reviewModal.classList.add('hidden');
+      loadBookings();
+    } catch (e) {
+      alert("Failed to submit review: " + e.message);
+    }
+  };
+}
+closeModalReviewBtn.onclick = () => { reviewModal.classList.add('hidden'); };
+window.onclick = function(event) {
+  if (event.target === reviewModal) {
+    reviewModal.classList.add('hidden');
+  }
+}
 
 
 // ----------- LOAD EVERYTHING -----------

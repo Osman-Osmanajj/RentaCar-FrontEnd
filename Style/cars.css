@@ -154,3 +154,158 @@
   border-color: var(--accent, #237be3);
   box-shadow: 0 4px 14px rgba(35,123,227,0.13);
 }
+/* Modal background overlay */
+/* Modal overlay */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(34,36,38,0.7);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal:not(.hidden) {
+  display: flex;
+}
+
+/* Modal content card */
+.modal-content {
+  background: #24262b;
+  color: #f3f3f3;
+  padding: 32px 28px 24px 28px;
+  border-radius: 12px;
+  box-shadow: 0 6px 32px rgba(0,0,0,0.22);
+  max-width: 400px;
+  width: 95vw;
+  position: relative;
+  margin: auto;
+  animation: popin 0.22s cubic-bezier(.65,-0.01,.29,1.45);
+}
+
+@keyframes popin {
+  from { transform: scale(0.96); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+.close-modal {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+
+  color: #ff4155;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0 4px;
+  transition: color 0.2s, background 0.2s, border-radius 0.2s;
+}
+
+.close-modal:hover {
+  color: #fff;
+  background: #ff4155;
+ 
+  border-radius: 200px;
+}
+
+/* Heading */
+.modal-content h2 {
+  margin: 0 0 20px 0;
+  font-size: 1.3rem;
+  color: #ff4155;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Review list styles */
+.review-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.review-list li {
+  background: #26282f;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-size: 1.09rem;
+  color: #ffe18a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  word-break: break-word;
+  box-shadow: 0 1px 6px rgba(255,65,85,0.07);
+  border-left: 3px solid #ff4155;
+}
+
+.review-list li:last-child {
+  margin-bottom: 0;
+}
+
+.review-list .star {
+  color: #ffd700;
+  margin-right: 2px;
+}
+
+
+
+/* Ensure the buttons area is below the text and spans full width */
+.car-details .buttons {
+  grid-column: 1 / -1; /* Spans all columns if inside grid */
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+  justify-content: flex-start; /* or center, as you prefer */
+}
+
+/* Style for both buttons inside car cards */
+.car-details .buttons button,
+.car-details .buttons Button {
+  flex: 1 1 0px;
+  padding: 11px 0;
+  background: #ff4155;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(255,65,85,0.08);
+  outline: none;
+  margin: 0;
+}
+
+.car-details .buttons button:hover,
+.car-details .buttons Button:hover {
+  background: #b3001b;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.car-details .buttons button:active,
+.car-details .buttons Button:active {
+  background: #90162c;
+}
+
+/* Make sure the car-card maintains equal height */
+.car-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.car-image {
+  flex-shrink: 0;
+}
+
+.car-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
